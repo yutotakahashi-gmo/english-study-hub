@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b5bdb">
+<title>English Study Hub</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  color: #232a36; line-height: 1.6;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #eef2ff 0, rgba(238,242,255,0) 60%),
+    radial-gradient(900px 500px at 100% 0%, #fff0f6 0, rgba(255,240,246,0) 55%),
+    #f6f7fb;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 1060px; margin: 0 auto; padding: 16px 14px 70px; }
+header.hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1b2a6b 0%, #3b5bdb 50%, #7048e8 100%);
+  color: #fff; border-radius: 20px; padding: 22px 22px 20px; margin-bottom: 16px;
+  box-shadow: 0 12px 34px rgba(48,63,159,.28);
+}
+header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width:200px; height:200px;
+  background: radial-gradient(circle, rgba(255,255,255,.18), rgba(255,255,255,0) 70%); }
+.hero h1 { margin: 0 0 4px; font-size: 1.5rem; letter-spacing:.3px; }
+.hero .sub { font-size: .82rem; opacity: .92; }
+.goal { margin-top: 13px; display:flex; flex-wrap:wrap; gap:8px; }
+.goal .pill { background: rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28);
+  padding: 5px 12px; border-radius: 999px; font-size: .8rem; font-weight:600; }
+.goal .pill small{ font-weight:400; opacity:.85; }
+.meta-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-top:13px; font-size:.72rem; opacity:.95;}
+
+.toolbar { position: sticky; top: 0; z-index: 5; padding: 10px 0 8px;
+  background: linear-gradient(#f6f7fb 70%, rgba(246,247,251,0)); }
+.search-box { position: relative; }
+.search-box input {
+  width: 100%; padding: 14px 16px 14px 44px; font-size: 16px; border: 1px solid #dfe3ec;
+  border-radius: 14px; background:#fff; outline: none; box-shadow: 0 2px 10px rgba(40,60,120,.05);
+  transition: border-color .15s, box-shadow .15s;
+}
+.search-box input:focus { border-color:#7048e8; box-shadow: 0 0 0 4px rgba(112,72,232,.14); }
+.search-box .icon { position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#9aa3b2; font-size:1.05rem; }
+.search-box .clear { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; color:#9aa3b2; border:none; background:none; font-size:1.4rem; display:none; padding:4px 8px; }
+
+.chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.chip {
+  border:1px solid #e0e4ee; background:#fff; color:#3a4253; padding:7px 12px 7px 10px; border-radius:999px;
+  font-size:.82rem; cursor:pointer; transition: all .12s; display:flex; align-items:center; gap:7px; user-select:none;
+}
+.chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--ac,#888); flex:none; }
+.chip:active { transform: scale(.96); }
+.chip.active { color:#fff; border-color:transparent; background:var(--ac,#3b5bdb); box-shadow:0 4px 12px rgba(0,0,0,.14); }
+.chip.active .dot{ background:#fff; }
+.chip .cnt { font-size:.7rem; background:rgba(0,0,0,.07); padding:1px 7px; border-radius:999px; }
+.chip.active .cnt { background:rgba(255,255,255,.28); }
+
+.section { margin-top: 24px; }
+.section h2 { font-size:1.06rem; margin:0 0 11px; display:flex; align-items:center; gap:10px; }
+.section h2 .ic { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+  font-size:1rem; background:var(--ac,#3b5bdb); color:#fff; box-shadow:0 3px 8px rgba(0,0,0,.14); }
+.section h2 .badge { font-size:.7rem; font-weight:700; color:var(--ac,#5c7cfa); background:rgba(0,0,0,.04); padding:2px 9px; border-radius:999px; }
+
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:10px; }
+.card {
+  display:block; background:#fff; border:1px solid #e9ecf3; border-left:4px solid var(--ac,#c9d2ea); border-radius:13px;
+  padding:13px 14px; text-decoration:none; color:#222a3a; font-size:.93rem; transition: all .14s; position:relative;
+  cursor:pointer; box-shadow:0 1px 3px rgba(40,60,120,.04);
+}
+.card:hover { box-shadow:0 8px 20px rgba(60,80,160,.13); transform:translateY(-2px); }
+.card:active { transform:scale(.99); }
+.card .grp { display:block; font-size:.65rem; color:#97a0b0; margin-bottom:3px; letter-spacing:.3px; }
+.card .chev2 { color:var(--ac,#c0c8da); float:right; margin-left:6px; font-weight:700; }
+.card mark.q { background:#ffe066; padding:0 2px; border-radius:3px; }
+
+.empty { text-align:center; color:#97a0b0; padding:40px 10px; font-size:.9rem; }
+.foot { margin-top:30px; text-align:center; font-size:.72rem; color:#aab2c0; }
+
+/* reader */
+.reader { position: fixed; inset: 0; z-index: 50; background:#fbfbfd; display:none; flex-direction:column; }
+.reader.open { display:flex; animation: rin .18s ease; }
+@keyframes rin { from { opacity:.4; transform: translateY(6px);} to{ opacity:1; transform:none;} }
+.reader-head {
+  display:flex; align-items:center; gap:10px; padding: 12px 14px; padding-top: max(12px, env(safe-area-inset-top));
+  border-bottom:1px solid #ebedf3; background:#fff; position:sticky; top:0;
+}
+.reader-head .back { border:none; background:#eef1fe; color:#4263eb; font-size:.9rem; font-weight:700; padding:9px 14px; border-radius:11px; cursor:pointer; white-space:nowrap; }
+.reader-head .back:active { background:#dbe2fb; }
+.reader-head .rtitle { font-weight:800; font-size:1.02rem; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.reader-head .rclose { border:none; background:none; font-size:1.5rem; color:#9aa3b2; cursor:pointer; padding:4px 8px; }
+.crumbs { font-size:.72rem; color:#9aa3b2; padding:7px 18px 0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.reader-body { overflow-y:auto; -webkit-overflow-scrolling:touch; padding: 10px 20px 70px; flex:1; }
+.reader-body .doc { max-width: 740px; margin: 0 auto; }
+
+.doc h1 { font-size:1.55rem; margin:18px 0 12px; line-height:1.3; }
+.doc h2 { font-size:1.22rem; margin:26px 0 10px; padding-left:11px; border-left:5px solid var(--rac,#7048e8); line-height:1.35; }
+.doc h3 { font-size:1.06rem; margin:20px 0 7px; color:#2b2350; }
+.doc h4 { font-size:.96rem; margin:15px 0 5px; color:#41506b; }
+.doc p { margin:10px 0; }
+.doc ul, .doc ol { margin:9px 0; padding-left:24px; }
+.doc li { margin:5px 0; }
+.doc li::marker { color:#9b8cf0; }
+.doc hr { border:none; border-top:1px dashed #d9dde6; margin:20px 0; }
+.doc code { background:#eef0f6; padding:1.5px 6px; border-radius:6px; font-size:.86em; color:#5a3ec8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.doc pre { background:#161a2e; color:#e6e9f5; padding:14px 16px; border-radius:12px; overflow-x:auto; font-size:.82rem; line-height:1.5; }
+.doc pre code { background:none; padding:0; color:inherit; }
+.doc blockquote { margin:12px 0; padding:11px 15px 11px 14px; border-left:4px solid #ffd43b; background:#fffbe8; color:#6b5b14; border-radius:0 10px 10px 0; }
+.doc table { border-collapse:separate; border-spacing:0; width:100%; margin:14px 0; font-size:.88rem; display:block; overflow:hidden auto; border:1px solid #e6e9f0; border-radius:12px; }
+.doc th, .doc td { border-bottom:1px solid #eceff4; padding:9px 11px; text-align:left; vertical-align:top; }
+.doc tr:last-child td { border-bottom:none; }
+.doc th { background:#f3f0ff; font-weight:800; color:#3b2f73; }
+.doc tr:nth-child(even) td { background:#fafbfe; }
+.doc a.ext { color:#4263eb; word-break:break-all; }
+.doc a.rlink { display:inline-flex; align-items:center; gap:5px; background:#eef1fe; color:#3a2db8; padding:8px 13px; border-radius:11px; text-decoration:none; font-weight:700; font-size:.92rem; margin:4px 5px 4px 0; cursor:pointer; border:1px solid #e0e3fb; }
+.doc a.rlink:hover { background:#e4e8ff; }
+.doc a.rlink .chev { color:#8f7ff0; }
+.doc .imgph { display:inline-block; background:#eef0f6; color:#8a93a3; padding:5px 11px; border-radius:9px; font-size:.8rem; }
+
+/* fallback for un-baked pages */
+.fallback { text-align:center; padding:46px 18px; color:#5a6478; }
+.fallback .fbicon { font-size:2.4rem; }
+.fallback p { margin:10px 0; }
+.fallback .fbbtn { display:inline-block; margin-top:6px; background:var(--rac,#4263eb); color:#fff; text-decoration:none; padding:11px 20px; border-radius:12px; font-weight:700; }
+.fallback .fbnote { font-size:.74rem; color:#97a0b0; margin-top:18px; }
+
+/* 蛍光ペン */
+.doc mark.hl { color:#1f2430; padding:0 3px; border-radius:2px; font-weight:600; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.hl-yellow { background: linear-gradient(104deg, rgba(255,241,118,0) 0.5%, #ffee58 2%, rgba(255,238,88,.78) 96%, rgba(255,241,118,0) 99%); }
+.hl-green  { background: linear-gradient(104deg, rgba(105,240,174,0) 0.5%, #69f0ae 2%, rgba(105,240,174,.72) 96%, rgba(105,240,174,0) 99%); }
+.hl-blue   { background: linear-gradient(104deg, rgba(129,212,250,0) 0.5%, #81d4fa 2%, rgba(129,212,250,.72) 96%, rgba(129,212,250,0) 99%); }
+.hl-pink   { background: linear-gradient(104deg, rgba(248,187,208,0) 0.5%, #f8bbd0 2%, rgba(248,187,208,.78) 96%, rgba(248,187,208,0) 99%); }
+.hl-orange { background: linear-gradient(104deg, rgba(255,204,128,0) 0.5%, #ffcc80 2%, rgba(255,204,128,.78) 96%, rgba(255,204,128,0) 99%); }
+.hl-purple { background: linear-gradient(104deg, rgba(206,147,216,0) 0.5%, #ce93d8 2%, rgba(206,147,216,.7) 96%, rgba(206,147,216,0) 99%); }
+.hl-red    { background: linear-gradient(104deg, rgba(255,171,145,0) 0.5%, #ffab91 2%, rgba(255,171,145,.72) 96%, rgba(255,171,145,0) 99%); }
+.hl-brown  { background: linear-gradient(104deg, rgba(215,204,200,0) 0.5%, #d7ccc8 2%, rgba(215,204,200,.8) 96%, rgba(215,204,200,0) 99%); }
+.hl-gray   { background: linear-gradient(104deg, rgba(224,224,224,0) 0.5%, #e0e0e0 2%, rgba(224,224,224,.85) 96%, rgba(224,224,224,0) 99%); }
+.tc-red{color:#e03131;font-weight:600}.tc-blue{color:#1971c2;font-weight:600}.tc-green{color:#2f9e44;font-weight:600}
+.tc-orange{color:#e8590c;font-weight:600}.tc-purple{color:#7048e8;font-weight:600}.tc-pink{color:#c2255c;font-weight:600}
+.tc-brown{color:#846358;font-weight:600}.tc-gray{color:#868e96}.tc-yellow{color:#f08c00;font-weight:600}
+
+@media (max-width:560px){ .hero h1 { font-size:1.28rem; } .grid { grid-template-columns: 1fr 1fr; } .reader-body { padding: 10px 15px 70px; } }
+@media (max-width:380px){ .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>🇺🇸 English Study Hub</h1>
+    <div class="sub">Notion「ENGLISH」を、どこでも開ける学習アプリに</div>
+    <div class="goal">
+      <span class="pill">🎯 2026 Goal</span>
+      <span class="pill">TOEIC <small>950</small></span>
+      <span class="pill">TOEFL <small>100</small></span>
+      <span class="pill">英検 <small>1級</small></span>
+    </div>
+    <div class="meta-row"><span id="updated"></span><span id="totalcount"></span></div>
+  </header>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="icon">🔍</span>
+      <input id="q" type="text" placeholder="全カテゴリを横断検索（単語・表現・トピック…）" autocomplete="off" autocapitalize="off">
+      <button class="clear" id="clear" title="クリア">×</button>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div id="content"></div>
+  <div class="foot">タップで中身を表示・横断検索対応 / スナップショット版</div>
+</div>
+
+<div class="reader" id="reader">
+  <div class="reader-head">
+    <button class="back" id="rback">‹ 戻る</button>
+    <div class="rtitle" id="rtitle"></div>
+    <button class="rclose" id="rclose" title="閉じる">×</button>
+  </div>
+  <div class="crumbs" id="crumbs"></div>
+  <div class="reader-body"><div class="doc" id="rdoc"></div></div>
+</div>
+
+<!-- ===== embedded Notion snapshot (raw markdown) ===== -->
+<script type="text/plain" data-pageid="359f5dfa5cb3809c8a9dc3d063cf8092">
+## 動詞句・構文系
+- **Phrasal verb** — 句動詞（例: give up）
+- **Prepositional verb** — 前置詞動詞（例: look at）
+- **Idiom** — 慣用句
+- **Collocation** — 連語（自然な語の組み合わせ）
+- **Compound verb** — 複合動詞
+- **Auxiliary verb** — 助動詞
+- **Modal verb** — 法助動詞（can, must 等）
+- **Linking verb / Copula** — 連結動詞（be, seem 等）
+- **Transitive verb** — 他動詞
+- **Intransitive verb** — 自動詞
+- **Ditransitive verb** — 二重目的語動詞
+- **Causative verb** — 使役動詞（make, let 等）
+- **Stative verb** — 状態動詞
+- **Dynamic verb** — 動作動詞
+- **Gerund** — 動名詞
+- **Infinitive** — 不定詞
+- **Participle** — 分詞（present/past participle）
+## 文の要素・構造
+- **Subject / Predicate** — 主語 / 述部
+- **Object** (direct/indirect) — 目的語（直接/間接）
+- **Complement** — 補語
+- **Modifier** — 修飾語
+- **Clause** — 節（main / subordinate / relative）
+- **Phrase** — 句（noun/verb/adj/adv/prep phrase）
+- **Antecedent** — 先行詞
+- **Apposition** — 同格
+## 品詞
+- **Noun / Pronoun / Adjective / Adverb**
+- **Preposition / Conjunction / Interjection**
+- **Determiner** — 限定詞（a, the, this 等）
+- **Quantifier** — 数量詞（some, many 等）
+- **Article** — 冠詞（definite / indefinite）
+## 時制・相・態
+- **Tense** — 時制
+- **Aspect** — 相（perfect / progressive）
+- **Voice** — 態（active / passive）
+- **Mood** — 法（indicative / imperative / subjunctive）
+- **Conditional** — 条件法
+- **Subjunctive** — 仮定法
+## 語形成・語彙
+- **Affix / Prefix / Suffix** — 接辞 / 接頭辞 / 接尾辞
+- **Root / Stem** — 語根 / 語幹
+- **Inflection** — 語形変化
+- **Derivation** — 派生
+- **Compound** — 複合語
+- **Conversion** — 品詞転換（名詞→動詞 等）
+## 意味・修辞
+- **Synonym / Antonym** — 同義語 / 反意語
+- **Homonym / Homophone / Homograph** — 同音異義 / 同綴異義
+- **Connotation / Denotation** — 含意 / 明示的意味
+- **Nuance** — 語感
+- **Register** — 言語使用域（formal / informal）
+- **Figurative / Literal** — 比喩的 / 字義通り
+- **Metaphor / Simile** — 隠喩 / 直喩
+- **Hyperbole** — 誇張表現
+- **Euphemism** — 婉曲表現
+- **Cliché** — 使い古された表現
+- **Proverb / Saying** — ことわざ / 格言
+## 慣用表現の種類
+- **Idiomatic expression** — 慣用表現
+- **Fixed expression** — 固定表現
+- **Set phrase** — 決まり文句
+- **Binomial** — 二語連結（e.g., back and forth）
+- **Catchphrase** — 決め台詞
+- **Slang** — 俗語
+- **Jargon** — 専門用語
+- **Colloquialism** — 口語表現
+## 文法現象・規則
+- **Agreement / Concord** — 一致（subject-verb agreement）
+- **Ellipsis** — 省略
+- **Inversion** — 倒置
+- **Cleft sentence** — 分裂文（It is X that…）
+- **Reported / Indirect speech** — 間接話法
+- **Direct speech** — 直接話法
+- **Anaphora / Cataphora** — 前方照応 / 後方照応
+- **Coordination / Subordination** — 等位 / 従位接続
+## 発音・正書法
+- **Syllable / Stress / Intonation** — 音節 / 強勢 / イントネーション
+- **Phoneme / Morpheme** — 音素 / 形態素
+- **Orthography** — 正書法
+- **Contraction** — 短縮形（don't 等）
+</script>
+
+<script type="text/plain" data-pageid="2f7f5dfa5cb380ce8b6ed985dca41e7c">
+<page url="https://app.notion.com/p/2f7f5dfa5cb380b8a45afd17e7859dc1">倒置</page>
+<page url="https://app.notion.com/p/38df5dfa5cb3808d8a9dfb69428561c6">同格のthat</page>
+<page url="https://app.notion.com/p/38df5dfa5cb380108515fe203aade34a">where/ that</page>
+</script>
+
+<script type="text/plain" data-pageid="2f7f5dfa5cb3809a847cf2406e0c9cc8">
+## 🗒️トピック別 難単語
+### Bachelor of Arts
+<page url="https://app.notion.com/p/350f5dfa5cb38001b7e6c84c742ff8ec">金融系</page>
+<page url="https://app.notion.com/p/350f5dfa5cb380fdb09cce761e33c6f8">政治</page>
+<page url="https://app.notion.com/p/2d329eddb20040d6a73dca6de1d02e8b">国際関係・安全保障</page>
+<page url="https://app.notion.com/p/350f5dfa5cb3808eb738fa97096422aa">環境規制</page>
+<page url="https://app.notion.com/p/b4b314483cea444887125c45cd29a1e5">社会・政治</page>
+<page url="https://app.notion.com/p/d22189bd9452456ca51d4c92bdf04359">多様性・ジェンダー</page>
+<page url="https://app.notion.com/p/b3aed61d94514b46ad40c08a8b2458d8">経済・労働</page>
+<page url="https://app.notion.com/p/23d8fadd292d46f884cee1aead2a91e1">ビジネス・企業・規制</page>
+<page url="https://app.notion.com/p/ff315fdfb34e4b0aaf6a0962c67ba468">科学技術・AI</page>
+<page url="https://app.notion.com/p/9cc9f9a617fa4792927d59dd7075da61">環境・エネルギー</page>
+<page url="https://app.notion.com/p/e00c7e3b158f4baba10a5ff0ee77e01a">教育</page>
+<page url="https://app.notion.com/p/ad63f6fe4066437a88711666bbfcfd87">倫理・医療</page>
+<page url="https://app.notion.com/p/eb7a63edfc924b738155ee150f22653b">メディア・文化</page>
+<page url="https://app.notion.com/p/cc1e9d715f42431a93cda84824265ae4">司法制度</page>
+<page url="https://app.notion.com/p/35a939458da94c5cbe2b3053a21bf825">公共政策・福祉</page>
+<page url="https://app.notion.com/p/403fa391e86e40369ffe947ca429af15">心理・行動科学</page>
+<page url="https://app.notion.com/p/e01096adc2fa4b77b6a0c9c90805c8c8">食料・農業</page>
+### Bachelor of Science
+<page url="https://app.notion.com/p/32df5dfa5cb3804c8961ff4a11f50147">生物学</page>
+<page url="https://app.notion.com/p/34ff5dfa5cb380a8a4a7e63800661dfc">生物関連 英単語まとめ</page>
+<page url="https://app.notion.com/p/186c87b4e02749a1b832bfaa9ec0e560">物理・宇宙</page>
+<page url="https://app.notion.com/p/b1a1cc61ae1a49a6b7f6edc5b839cd8a">化学・材料</page>
+<page url="https://app.notion.com/p/9251fd056b3744fdb27987f1d2c36348">データ・統計（科学リテラシー）</page>
+<page url="https://app.notion.com/p/db7fccd3fad44d45a28a9b7f3b19c541">公衆衛生・疫学</page>
+<page url="https://app.notion.com/p/4594b27f81fe4718be6ae605fbbbbd53">工学・インフラ</page>
+<page url="https://app.notion.com/p/c9457ef9b0104c2da61dfceb399b6d06">計算機科学・サイバー</page>
+<page url="https://app.notion.com/p/5e153a958f644787ba928d5fc6aaeb94">脳科学・メンタルヘルス</page>
+<page url="https://app.notion.com/p/b08c9ade13f34681854da8e5e7ed4b0f">数学・モデリング</page>
+<page url="https://app.notion.com/p/34ff5dfa5cb380c684fbe8404383f5b9">堆積学（Sedimentology）</page>
+<page url="https://app.notion.com/p/fefa069763b34a518b93e6d47f09f446">天体・宇宙（Astronomy）</page>
+### 🇬🇧 英検一級
+<page url="https://app.notion.com/p/350f5dfa5cb380609789ee28faa2396b">2025-1</page>
+<page url="https://app.notion.com/p/350f5dfa5cb3808793c0fc4bb5cdc298">2025-2</page>
+<page url="https://app.notion.com/p/35df5dfa5cb380dda1b4fb5a25f5c6da">2024-1</page>
+<page url="https://app.notion.com/p/35df5dfa5cb3805c8b40dab772eb3496">2024-2</page>
+<page url="https://app.notion.com/p/364f5dfa5cb380c8b0f7f2b2566b98fd">2024-3</page>
+<page url="https://app.notion.com/p/35df5dfa5cb38033be07cdac37e17797">2023-3</page>
+### 単語
+<page url="https://app.notion.com/p/36af5dfa5cb3803c9355c313f2bf4917">efface 消去・抹消</page>
+<page url="https://app.notion.com/p/36af5dfa5cb3805783fccfd19594da80">「妬み・嫉妬」関連語まとめ</page>
+<page url="https://app.notion.com/p/2fef5dfa5cb380c2b799cdfb9d71954e">慣用句（かんようく）</page>
+<page url="https://app.notion.com/p/366f5dfa5cb380f48eabdfc7460ed5e7">sound 「（眠りが）深い／ぐっすり」</page>
+<page url="https://app.notion.com/p/364f5dfa5cb380f4b066dba15e6b87ad">「allegedly」～とのこと</page>
+<page url="https://app.notion.com/p/34df5dfa5cb380d3ab79e34a83bf746b">「趣旨」と「目的」の違い・英訳</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb3808f9f31d02ff6503c9b">hail</page>
+<page url="https://app.notion.com/p/2f7f5dfa5cb3801789e0e8bdc5f60ca0">Erect: 「（物理的に）立てる／直立した」「（生理的に）勃起した」</page>
+<page url="https://app.notion.com/p/2f7f5dfa5cb3807390c4dcf739c7a6b3">Erect= 設置する/ 立てる</page>
+<page url="https://app.notion.com/p/2f7f5dfa5cb38098a9b3d8af3533305e">provoke / arouse / stimulate</page>
+<page url="https://app.notion.com/p/2f7f5dfa5cb38073b84ae9b24086bc4a">Drape「布などを“だらりとかける／垂らす”」</page>
+<page url="https://app.notion.com/p/2fbf5dfa5cb380139851c59007a9bda4">liaison</page>
+<page url="https://app.notion.com/p/366f5dfa5cb38043b184c9ad6558890a">forsake 「見捨てる」</page>
+<page url="https://app.notion.com/p/2fcf5dfa5cb3805dbc7cd7e9d4b1c809">turnout 出席者数/ 仕上がり</page>
+<page url="https://app.notion.com/p/2fef5dfa5cb38043b5a4c38f058fef87">abet/ avid</page>
+<page url="https://app.notion.com/p/2fef5dfa5cb3804685b3e995f4e35260">effusive: 「大げさな」</page>
+<page url="https://app.notion.com/p/30df5dfa5cb38076ae05e4c8eeb6f0de">plight 苦境/ 誓う</page>
+<page url="https://app.notion.com/p/30df5dfa5cb380fbb5fbc883426018aa">ostensible「見かけの」/ superficial「中身がない」</page>
+<page url="https://app.notion.com/p/30df5dfa5cb38081a093e990df36a5c4">grudge「恨む」/ grievance「不満」/ grieve「深く悲しむ」</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb3803896f2c0208c9d35cb">obsequious/ servile</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb380a8895fed1bda248894">prudence「慎重さ」, imprudence「軽率な」/ impudence「厚かましさ」</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb38086bce6c828ad63c399">obsequious/ ingratiate</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb380b6b045f7a3f3dd2966">emblazon / embezzle</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb380d4a786c8346998171f">rural → rustic → bucolic → pastoral → Arcadian → idyllic</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb3804db216df374e2ce1fc">rusty「錆びた」/ rustic「田舎っぽい」</page>
+<page url="https://app.notion.com/p/310f5dfa5cb3809182f8f6df8d30634b">implicate / implication</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380df9b12d2a627122529">がぶ飲みする=swig, guzzle</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38037bc54fa8cd3d5b8df">fumble「手探りする」＋「台無しにする」</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38042b773c89405262fc0">qualm, compunction, culpable, scruple</page>
+<page url="https://app.notion.com/p/310f5dfa5cb3807488aec571a5c3b547">upstart, parvenu</page>
+<page url="https://app.notion.com/p/36af5dfa5cb380698090e26cdce98c77">levy 「（税金を）課す」</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38073adebceb025bf5d78">autocracy, hypocracy, autrachy</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380e6be80c002a3bc5dc2">counterfeit, confiscate</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38030919dcf0a7d3ca61a">厚かましい</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38049b9d5e8d797650b68">恩着せがましい</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380b5a7a1c133f8c15740">tractable, intractable</page>
+<page url="https://app.notion.com/p/310f5dfa5cb38049b7b5dd7bd66fd9a9">consummate「完成された」/ commensurate「釣り合った」</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380a783f5c37dc7890209">platitude cliche</page>
+<page url="https://app.notion.com/p/312f5dfa5cb380ddb2fcc03bceffd006">dismissive と pompous</page>
+<page url="https://app.notion.com/p/312f5dfa5cb380529640cff72b052339">caustic, scathing, pungent</page>
+<page url="https://app.notion.com/p/319f5dfa5cb3804084b0f6e8331e8375">Barter 物々交換</page>
+<page url="https://app.notion.com/p/327f5dfa5cb380918064e6f8a9947e0b">menial: 単純な仕事</page>
+<page url="https://app.notion.com/p/334f5dfa5cb380d78fd3f709499ff402">優位性= hegemony</page>
+<page url="https://app.notion.com/p/334f5dfa5cb3804db120e40977b8b183">dandelion タンポポ: 強さの象徴</page>
+<page url="https://app.notion.com/p/350f5dfa5cb380afa42ecc2ec07de99d">bravado の解説</page>
+<page url="https://app.notion.com/p/350f5dfa5cb3809e83e3ff239b389604">bluff と bravado の違い</page>
+<page url="https://app.notion.com/p/350f5dfa5cb38069899fe4e89939d720">collate の解説</page>
+<page url="https://app.notion.com/p/350f5dfa5cb380d487fbd3d2ca3b4695">Entreaty</page>
+<page url="https://app.notion.com/p/351f5dfa5cb380a28cd1eef1622a58ea">gauge / gauging</page>
+<page url="https://app.notion.com/p/351f5dfa5cb380b296edf0fa903e2365">foment: 助長する</page>
+<page url="https://app.notion.com/p/359f5dfa5cb38057b467f68cc77eee79">covet</page>
+<page url="https://app.notion.com/p/359f5dfa5cb3803fb4a3dbf0e3d13b66">culprit / fugitive の覚え方・語源解説</page>
+<page url="https://app.notion.com/p/35af5dfa5cb380b2ac8de0f579a5808a">square 精算</page>
+<page url="https://app.notion.com/p/35bf5dfa5cb380318859d533a641cf87">同盟</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb38097b7c3ec8cf8cf2dd7">levity</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb3806e9e47c6284c87290f">entreaty</page>
+<page url="https://app.notion.com/p/36ff5dfa5cb3804296cfe3975aa7e57a">物価</page>
+### 語源
+<page url="https://app.notion.com/p/30df5dfa5cb380fb94c8e2d87684ddee">ordo 系（ラテン語） vs ordāl 系（古英語）</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb3803a8c5ef1fff4af4357">up-</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb380a18d6bcd9fb28a8f0a">clandestine</page>
+<page url="https://app.notion.com/p/30df5dfa5cb380a18c50fdaf1d715c2f">memor-</page>
+<page url="https://app.notion.com/p/30df5dfa5cb380d1bc68d6482b930681">devout / devious の比較</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb3806bb2b4cca029d4c99f">scruple/ scruplous</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb38080a3aad76fc75ab5c8">lḗthē（忘却）</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb38048bdf5c3d71abb2ee0">vocare(呼ぶ): invoke/ evoke</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb38040b9d8f8627841d1b3">abundance / abundant / redundant / inundate</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb380dfa8f3c02a60b87266">-loqu- / -locut- 語根ファミリー</page>
+<page url="https://app.notion.com/p/30ff5dfa5cb38081b9c6eea68b3918fc">cipitare（頭から落とす）/ precipitate</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380948c70c2bd0367b7b5">censere→censure「非難する」/ censor「検閲する」</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380919525f86fca5842c1">specere（見る)→specter / spectator</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380898dbce1c1deaeeda4">parere（現れる・出る）→apparition / apparel</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380a8b946d443cfff2147">ident-, idio-, ideo-</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380b08927fe38ee638df6">gui, gull</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380099a43ea11d15486ad">with-（接頭辞）</page>
+<page url="https://app.notion.com/p/310f5dfa5cb380b5881fed242856d240">vapor</page>
+<page url="https://app.notion.com/p/312f5dfa5cb3806ca8c5e2ffc9103079">for-(運の)</page>
+<page url="https://app.notion.com/p/312f5dfa5cb38052b587eff384dec74f">nomen(名前)</page>
+<page url="https://app.notion.com/p/312f5dfa5cb3807c992bdf5fe36233a0">sumere（取る）</page>
+<page url="https://app.notion.com/p/312f5dfa5cb38090964bd36f66840353">trans-(transparent/ translucent)</page>
+<page url="https://app.notion.com/p/319f5dfa5cb380dab398dcb4a79f693d">否定の in-/ im-</page>
+<page url="https://app.notion.com/p/359f5dfa5cb3803780abe9c79d853a63">out- : 「相手に勝る」</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb380f0a14eefbec55cc445">contra- 違反 against</page>
+<page url="https://app.notion.com/p/35ef5dfa5cb3802bb1f4c8e69db3a5e8">ali- 「悪性の、異なる」</page>
+<page url="https://app.notion.com/p/362f5dfa5cb3805bbc9fc71b6f9d22f2">chrono- 時間</page>
+<page url="https://app.notion.com/p/36cf5dfa5cb380969373d2f54c66334b">sani- は「健康・衛生」</page>
+</script>
+
+<script type="text/plain" data-pageid="2f7f5dfa5cb380508ab2c6754628cfe4">
+### カジュアル会話
+<page url="https://app.notion.com/p/2f7f5dfa5cb3805ab6decde2f54aa1e7">評価</page>
+<page url="https://app.notion.com/p/d4fcb27e364343e2b89dc376f5db60fa">Slangs & Idioms</page>
+<page url="https://app.notion.com/p/2fcf5dfa5cb38046aef9e8280d900206">スラング・口語表現</page>
+<page url="https://app.notion.com/p/2f7f5dfa5cb380b69c5fc17f4b4bde3a">Sports English</page>
+<page url="https://app.notion.com/p/2fdf5dfa5cb38049b30fdca3aa8971d0">There you go</page>
+<page url="https://app.notion.com/p/30ff5dfa5cb380b691dff0d3a141cb02">「趣味が悪い」: corny/ tacky / gaudy</page>
+<page url="https://app.notion.com/p/312f5dfa5cb3800aa4ddcb795b6b5fcf">日常での会話</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380d3ab88e11f2e524539">bro / dude / man 以外の表現</page>
+<page url="https://app.notion.com/p/31af5dfa5cb3804ea9fdd0fe147fd5bc">待ってたぜ！</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380d3ba11e539d8f255ad">lit, fire, dope 「めっちゃ良い・最高」</page>
+<page url="https://app.notion.com/p/325f5dfa5cb380cc97bffb4580cd66e6">簡単だよ！</page>
+<page url="https://app.notion.com/p/326f5dfa5cb380f98a3fea97d65a82fe">消費税 その他</page>
+<page url="https://app.notion.com/p/326f5dfa5cb380a9b403d14afb1cbee9">feel のパラフレーズ（ニュアンス別）</page>
+<page url="https://app.notion.com/p/33af5dfa5cb380748c7fcf307dbccc3d">カジュアルに「これだ！」</page>
+<page url="https://app.notion.com/p/359f5dfa5cb38066b75fcb5dea319fb2">「ほんとだよ！」「まったくその通り！」</page>
+<page url="https://app.notion.com/p/35af5dfa5cb380f08cc5c2b727bfcf6e">「黙って俺についてこい」</page>
+<page url="https://app.notion.com/p/36af5dfa5cb380f38769d15f4499ee0a">「私やばい！」</page>
+<page url="https://app.notion.com/p/36cf5dfa5cb3803f9914d147f20abe90">文字る</page>
+### 日常生活
+<page url="https://app.notion.com/p/326f5dfa5cb380f3afbef0598d73536f">stew: 煮込み料理</page>
+<page url="https://app.notion.com/p/326f5dfa5cb3806db0f3c78c6fce0efc">Cooking English</page>
+<page url="https://app.notion.com/p/326f5dfa5cb380fca13cdbdc3e4d0d4d">寿司</page>
+<page url="https://app.notion.com/p/326f5dfa5cb380ba9de7ee9d444a7ebd">焼肉</page>
+<page url="https://app.notion.com/p/383f5dfa5cb380e1b258fcb02f53b7be">友達・相手を指すカジュアルな呼びかけ表現</page>
+### スラング
+<page url="https://app.notion.com/p/368f5dfa5cb380338071c22c998314fb">「調子に乗る」</page>
+<page url="https://app.notion.com/p/4795c0d617ad45ebb951d58ffb59ff5b">「驚き・衝撃」の表現集 — No way!, Get out!, You're kidding me!</page>
+<page url="https://app.notion.com/p/3ddd294cd46c4645853df63d41e9f2e9">「曖昧にする」表現 — sort of, kind of, along the lines of</page>
+<page url="https://app.notion.com/p/865754911f004bc0a5472402fac03995">「会議での相槌・割り込み」 — That's a good point, If I may add...</page>
+<page url="https://app.notion.com/p/754792ba09544993bf0a4f93bd757d24">「催促・リマインド」のメール英語 — Just circling back, Following up on...</page>
+<page url="https://app.notion.com/p/e5bb93c934c347dbab362188e6a0de44">「話を変えるとき」の表現 — Anyway, Moving on, Speaking of which</page>
+<page url="https://app.notion.com/p/16db5eb9337d41cfb2f2c71a6e0c0b19">TikTok・ミーム由来のスラング — no cap, slay, it's giving, lowkey</page>
+<page url="https://app.notion.com/p/73be3aebe6a64180acf8beae90e6df34">「同意・共感」のバリエーション — Totally, Absolutely, I feel you</page>
+<page url="https://app.notion.com/p/8fe5edd88e9b48c7b2cbcea17b89dcde">映画・ドラマでよく聞くフレーズ — Come on!, Give me a break!, That's on you</page>
+<page url="https://app.notion.com/p/5ea783907ef54934bf94c3b1c8d0d144">「断る・やんわり拒否」のフレーズ — I'll pass, Not really my thing</page>
+</script>
+
+<script type="text/plain" data-pageid="2f7f5dfa5cb3809e941ede8ba83ff11f">
+### コンサル系
+<page url="https://app.notion.com/p/2fef5dfa5cb380a7a996ed9bd19d085f">Cyber Consulting English</page>
+### 技術系
+</script>
+
+<script type="text/plain" data-pageid="2f7f5dfa5cb380fe9a9dd3a762b97252">
+<page url="https://app.notion.com/p/2fcf5dfa5cb38092b4d1e3b35fc15640">直訳できない表現</page>
+<page url="https://app.notion.com/p/2fbf5dfa5cb380ad8b83ff2188340b71">FYI 省略Words</page>
+<page url="https://app.notion.com/p/2fcf5dfa5cb380d8be05c1d58a25c2ee">簡単な英単語→ビジネス</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380ffa07fdbd5d60624c8">責任を果たす</page>
+<page url="https://app.notion.com/p/372f5dfa5cb3801f949cd59e01da1ac7">経営会議</page>
+</script>
+
+<script type="text/plain" data-pageid="2fef5dfa5cb3803f8d3ccdf7f8a22b0d">
+### Daily ～ Academic
+<page url="https://app.notion.com/p/325f5dfa5cb38031999edcf1845850f7">GenZ Slangs</page>
+<page url="https://app.notion.com/p/2fef5dfa5cb380ab9834e21a65639262">彼の放つオーラは独特だ</page>
+<page url="https://app.notion.com/p/30ef5dfa5cb380b98fdad518a53877ad">弔意/ お悔み</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380828385f2cd147136a7">「親しき仲にも礼儀あり」</page>
+<page url="https://app.notion.com/p/31af5dfa5cb3804f9cd4effa81d8b4ea">"How does that feel to you?" は「第一印象」を聞く表現ではない。</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380669b8bf000dd2d2521">中途半端な出来</page>
+<page url="https://app.notion.com/p/31af5dfa5cb3802ba101db90e05716f8">軽食</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380f58f72e085f40e0e88">中途半端な数字、時間</page>
+<page url="https://app.notion.com/p/31cf5dfa5cb3806d8f6fc65c898477e9">高級な</page>
+<page url="https://app.notion.com/p/325f5dfa5cb3800dad05cf0115dcbf1b">おしゃれな</page>
+<page url="https://app.notion.com/p/325f5dfa5cb380bba8d4dee867357bf7">dare</page>
+<page url="https://app.notion.com/p/325f5dfa5cb380faab37d7c57264496a">slaps</page>
+<page url="https://app.notion.com/p/373f5dfa5cb380ccb9f5fa2265edacfd">「人生の基盤を築く」</page>
+<page url="https://app.notion.com/p/350f5dfa5cb3805488b1f913844b240f">「投資する / invest」の言い換え 10選</page>
+<page url="https://app.notion.com/p/355f5dfa5cb38045b947c3de941852b0">「われわれが享受している」</page>
+<page url="https://app.notion.com/p/357f5dfa5cb380e48a40f6cfff6fbc36">取り掛かる</page>
+<page url="https://app.notion.com/p/357f5dfa5cb380b7a232f4560d58726b">「深掘りしましょう」</page>
+<page url="https://app.notion.com/p/357f5dfa5cb380f5a920e7d3eb25ab8f">「Aについて軽く調べてみました」</page>
+<page url="https://app.notion.com/p/357f5dfa5cb38053a834f9dc7b7a8808">pack off/ see off</page>
+<page url="https://app.notion.com/p/359f5dfa5cb380749429e8e0d7fdacc9">どういたしまして</page>
+<page url="https://app.notion.com/p/35bf5dfa5cb380dc88adc6a399f2874a">日本の貧困を表現</page>
+<page url="https://app.notion.com/p/368f5dfa5cb38029877fd6d52e95fcb0">Exploit 副詞</page>
+<page url="https://app.notion.com/p/368f5dfa5cb38009b511d69bde38fe2c">吊り上げられた価格</page>
+<page url="https://app.notion.com/p/368f5dfa5cb38058a388cda5047f3465">「アメリカ」</page>
+<page url="https://app.notion.com/p/368f5dfa5cb380c4b366c5fb5c404600">「AをBといって言い訳する」</page>
+<page url="https://app.notion.com/p/36cf5dfa5cb380219eb1e475f42a962b">「清潔感がない」</page>
+<page url="https://app.notion.com/p/36cf5dfa5cb380d388fbee5d6e787a94">「口腔環境が悪い」</page>
+<page url="https://app.notion.com/p/36df5dfa5cb380f99d1de6c4975b9368">「上には上がいる」</page>
+<page url="https://app.notion.com/p/370f5dfa5cb380d380a0c7a048d48727">profit off of A 【口語】/ profit from A</page>
+<page url="https://app.notion.com/p/370f5dfa5cb3809dbf61fd1eac4e197e">「儲ける」</page>
+<page url="https://app.notion.com/p/373f5dfa5cb380b19537eeece5a9599b">非行少年</page>
+<page url="https://app.notion.com/p/377f5dfa5cb3809583f3d46b9394e8c6">適当な</page>
+<page url="https://app.notion.com/p/378f5dfa5cb3800badc6e6ce4f147567">月並みな</page>
+<page url="https://app.notion.com/p/37ff5dfa5cb380ff94e1c9c81109b760">that clicks！</page>
+### 🗾Japanese Culture/ Tour Guide
+<page url="https://app.notion.com/p/31af5dfa5cb380d999cac18a7b2f4dd1">①リアクション → ②軽い雑談 → ③近況 → ④今回の日本の話</page>
+<page url="https://app.notion.com/p/31af5dfa5cb38056a44bfa6e4aa0f2d7">Matcha</page>
+<page url="https://app.notion.com/p/31af5dfa5cb380f3b821da8435a0f99e">文化差・食べ物・生活の違いの話題</page>
+<page url="https://app.notion.com/p/31af5dfa5cb3802aabc5fc34a0bce002">Population～Tipping Culture</page>
+<page url="https://app.notion.com/p/31cf5dfa5cb3802f9a29d82d6d4c8ab4">電車に乗る</page>
+<page url="https://app.notion.com/p/32ef5dfa5cb380daae53d939b3c4269e">「東京から北上して」</page>
+<page url="https://app.notion.com/p/32ef5dfa5cb38096a3cacbed18182fd9">「最北端」「最南端」: the northernmost / southernmost</page>
+</script>
+
+<script type="text/plain" data-pageid="359f5dfa5cb380eb8de0fb359a3d9b8f">
+## Phrasal Verb(句動詞)
+- 「動詞 + 副詞/前置詞」という特定の形（文法構造）に注目した分類です。2語以上が組み合わさって、一つの動詞のような働きをします。
+- **特徴**: 動詞単体とは異なる意味になることが多い。
+- **例**: look after（世話をする） / put off（延期する） / get along（仲良くやる）
+## Idioms(慣用句)
+個々の単語の意味からは全体の意味が推測できない「決まり文句（慣用句）」という意味の性質に注目した分類です。
+- **特徴**: 形は動詞句に限らず、名詞句や文全体の形をとることもある。
+- **例**: a piece of cake（朝飯前） / break a leg（頑張れ、成功を祈る） / under the weather（体調が悪い）
+<page url="https://app.notion.com/p/359f5dfa5cb380f59f85e360fc026df6">own up to : 白状する</page>
+<page url="https://app.notion.com/p/35ff5dfa5cb3801b9a92c724cd87ed3b">let off the gas — 慣用句解説</page>
+<page url="https://app.notion.com/p/36ef5dfa5cb38044811cda3e4b74aa61">Fair Enough</page>
+### ことわざ・四字熟語 50選
+## 🔁 覆水盆に返らず系（取り返しがつかない）
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>覆水盆に返らず</td><td>It's no use crying over spilt milk.</td></tr>
+<tr><td>後悔先に立たず</td><td>Don't lock the stable door after the horse has bolted.</td></tr>
+<tr><td>死んだ子の年を数える</td><td>What's done is done.</td></tr>
+</table>
+## ⚡ 因果応報・自業自得系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>因果応報</td><td>What goes around, comes around.</td></tr>
+<tr><td>自業自得</td><td>You reap what you sow.</td></tr>
+<tr><td>身から出た錆</td><td>You made your bed, now lie in it.</td></tr>
+<tr><td>蒔かぬ種は生えぬ</td><td>No pain, no gain.</td></tr>
+<tr><td>目には目を</td><td>An eye for an eye.</td></tr>
+</table>
+## 🐢 努力・忍耐系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>七転び八起き</td><td>If at first you don't succeed, try, try again.</td></tr>
+<tr><td>石の上にも三年</td><td>Perseverance pays off. / Rome wasn't built in a day.</td></tr>
+<tr><td>塵も積もれば山となる</td><td>Every little bit counts.</td></tr>
+<tr><td>千里の道も一歩から</td><td>A journey of a thousand miles begins with a single step.</td></tr>
+<tr><td>雨垂れ石を穿つ</td><td>Constant dropping wears away the stone.</td></tr>
+<tr><td>継続は力なり</td><td>Practice makes perfect.</td></tr>
+<tr><td>急がば回れ</td><td>More haste, less speed. / Slow and steady wins the race.</td></tr>
+</table>
+## 🤝 人間関係・社会系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>類は友を呼ぶ</td><td>Birds of a feather flock together.</td></tr>
+<tr><td>朱に交われば赤くなる</td><td>You are known by the company you keep.</td></tr>
+<tr><td>口は禍の元</td><td>Speech is silver, silence is golden.</td></tr>
+<tr><td>沈黙は金</td><td>Silence is golden.</td></tr>
+<tr><td>論より証拠</td><td>The proof of the pudding is in the eating.</td></tr>
+<tr><td>出る杭は打たれる</td><td>The nail that sticks out gets hammered down.</td></tr>
+</table>
+## 🌿 外見・本質系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>外見で判断するな</td><td>Don't judge a book by its cover.</td></tr>
+<tr><td>羊の皮を被った狼</td><td>A wolf in sheep's clothing.</td></tr>
+<tr><td>見かけ倒し</td><td>All that glitters is not gold.</td></tr>
+<tr><td>名は体を表す</td><td>The name says it all. / Nomen est omen.</td></tr>
+</table>
+## 🎯 機会・タイミング系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>善は急げ / 鉄は熱いうちに打て</td><td>Strike while the iron is hot.</td></tr>
+<tr><td>機を見るに敏</td><td>Make hay while the sun shines.</td></tr>
+<tr><td>二兎を追う者は一兎をも得ず</td><td>You can't have your cake and eat it too.</td></tr>
+<tr><td>一石二鳥</td><td>Kill two birds with one stone.</td></tr>
+</table>
+## ⚠️ 警告・用心系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>転ばぬ先の杖</td><td>Better safe than sorry.</td></tr>
+<tr><td>備えあれば憂いなし</td><td>Forewarned is forearmed.</td></tr>
+<tr><td>虎穴に入らずんば虎子を得ず</td><td>Nothing ventured, nothing gained.</td></tr>
+<tr><td>泣き面に蜂</td><td>When it rains, it pours.</td></tr>
+</table>
+## 🏆 知恵・経験系
+<table header-row="true">
+<tr><td>日本語</td><td>英語</td></tr>
+<tr><td>経験は最良の教師</td><td>Experience is the best teacher.</td></tr>
+<tr><td>聞くは一時の恥、聞かぬは一生の恥</td><td>Better to ask and be embarrassed than not ask and stay ignorant.</td></tr>
+<tr><td>知らぬが仏</td><td>Ignorance is bliss.</td></tr>
+<tr><td>良薬は口に苦し</td><td>A good medicine tastes bitter.</td></tr>
+</table>
+## ✨ 四字熟語との対応
+<table header-row="true">
+<tr><td>四字熟語</td><td>意味</td><td>英語</td></tr>
+<tr><td>一石二鳥</td><td>一つの行動で二つの利益</td><td>Kill two birds with one stone.</td></tr>
+<tr><td>自業自得</td><td>自分の行いの報い</td><td>You reap what you sow.</td></tr>
+<tr><td>因果応報</td><td>善因善果・悪因悪果</td><td>What goes around, comes around.</td></tr>
+<tr><td>馬耳東風</td><td>人の言葉を聞き流す</td><td>In one ear and out the other.</td></tr>
+<tr><td>以心伝心</td><td>言わずとも通じ合う</td><td>Great minds think alike.</td></tr>
+<tr><td>弱肉強食</td><td>強者が弱者を支配する</td><td>The survival of the fittest.</td></tr>
+</table>
+</script>
+
+<script>
+const SECTIONS = [
+  { n:0, icon:"📘", name:"Learn English in English", id:"359f5dfa5cb3809c8a9dc3d063cf8092", c:"#4263eb" },
+  { n:1, icon:"📝", name:"Grammar",                   id:"2f7f5dfa5cb380ce8b6ed985dca41e7c", c:"#7048e8" },
+  { n:2, icon:"📚", name:"Vocabulary",                id:"2f7f5dfa5cb3809a847cf2406e0c9cc8", c:"#ae3ec9" },
+  { n:3, icon:"💬", name:"Casual English・Slangs",    id:"2f7f5dfa5cb380508ab2c6754628cfe4", c:"#d6336c" },
+  { n:4, icon:"🔐", name:"Cybersecurity English",     id:"2f7f5dfa5cb3809e941ede8ba83ff11f", c:"#0ca678" },
+  { n:5, icon:"💼", name:"Business English",          id:"2f7f5dfa5cb380fe9a9dd3a762b97252", c:"#f59f00" },
+  { n:6, icon:"✨", name:"Expressions",               id:"2fef5dfa5cb3803f8d3ccdf7f8a22b0d", c:"#e8590c" },
+  { n:7, icon:"🔗", name:"Phrasal Verb / Idioms",     id:"359f5dfa5cb380eb8de0fb359a3d9b8f", c:"#1098ad" },
+];
+const FILTER_KEY = "englishhub_filter";
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+const SNAP = {};
+document.querySelectorAll('script[type="text/plain"][data-pageid]').forEach(s=>{ SNAP[s.dataset.pageid] = s.textContent; });
+
+let DATA = [];
+let activeFilter = lsGet(FILTER_KEY) || "all";
+let query = "";
+let navStack = [];
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c])); }
+function escAttr(s){ return esc(s).replace(/'/g,"&#39;"); }
+function idFromUrl(u){ const m = String(u).match(/[0-9a-f]{32}/i); return m ? m[0] : u; }
+function stripTags(t){ return String(t).replace(/<[^>]+>/g,""); }
+function clean(t){
+  return String(t)
+    .replace(/<span[^>]*>/g,"").replace(/<\/span>/g,"")
+    .replace(/<[^>]+>/g,"")
+    .replace(/\\([*_~`])/g,"$1")
+    .replace(/[`*_]/g,"")
+    .replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">")
+    .replace(/\s+/g," ").trim();
+}
+function parseList(md){
+  const items = []; const seen = new Set();
+  const re = /(^|\n)[ \t]*#{2,4}\s+(.+)|<page url="([^"]+)">([\s\S]*?)<\/page>|(^|\n)[ \t]*[-*]\s+([^\n]+)/g;
+  let m, curGroup = "";
+  while ((m = re.exec(md)) !== null){
+    if (m[2] !== undefined){ curGroup = clean(m[2]); }
+    else if (m[3]){ const t = clean(m[4]); if (t && !seen.has(t)){ seen.add(t); items.push({ title:t, id:idFromUrl(m[3]), group:curGroup }); } }
+    else if (m[6] !== undefined){
+      const t = clean(m[6]);
+      if (t && t.length<=120 && !/^(例|特徴|特性)[:：]?$/.test(t) && !seen.has(t)){ seen.add(t); items.push({ title:t, id:null, group:curGroup }); }
+    }
+  }
+  return items;
+}
+function colored(col, t){
+  const bg = /_bg$/.test(col); const base = col.replace(/_bg$/,"");
+  const ok = {gray:1,grey:1,brown:1,orange:1,yellow:1,green:1,blue:1,purple:1,pink:1,red:1};
+  let b = ok[base] ? base : (bg ? "yellow" : "blue"); if (b==="grey") b="gray";
+  const inner = esc(stripTags(t));
+  return bg ? ('<mark class="hl hl-'+b+'">'+inner+'</mark>') : ('<span class="tc tc-'+b+'">'+inner+'</span>');
+}
+function inline(s){
+  const tok = []; const stash = h => { tok.push(h); return "@@T"+(tok.length-1)+"@@"; };
+  s = s.replace(/<page url="([^"]+)">([\s\S]*?)<\/page>/g,(_,u,t)=> stash('<a class="rlink" data-id="'+escAttr(idFromUrl(u))+'" data-title="'+escAttr(clean(t))+'">'+esc(clean(t))+' <span class="chev">›</span></a>'));
+  s = s.replace(/<unknown[^>]*\/?>(?:[\s\S]*?<\/unknown>)?/g,"");
+  s = s.replace(/!\[[^\]]*\]\(([^)]+)\)/g, ()=> stash('<span class="imgph">🖼 画像</span>'));
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,(_,t,u)=> stash('<a class="ext" href="'+escAttr(u)+'" target="_blank" rel="noopener">'+esc(t)+'</a>'));
+  s = s.replace(/`([^`]+)`/g,(_,c)=> stash('<code>'+esc(c)+'</code>'));
+  s = s.replace(/<span\s+color="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g,(_,col,t)=> stash(colored(col,t)));
+  s = s.replace(/<span[^>]*>([\s\S]*?)<\/span>/g,(_,t)=> esc(stripTags(t)));
+  s = esc(s);
+  s = s.replace(/\\([*_~])/g,"$1");
+  s = s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+  s = s.replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g,"$1<em>$2</em>");
+  s = s.replace(/@@T(\d+)@@/g,(_,i)=> tok[+i]);
+  return s;
+}
+function mdToHtml(content){
+  const tables = [];
+  content = content.replace(/<table[^>]*>([\s\S]*?)<\/table>/g,(_,body)=>{
+    let html = "<table>"; const rows = body.match(/<tr>[\s\S]*?<\/tr>/g) || [];
+    rows.forEach((row,ri)=>{
+      const cells = row.match(/<t[hd]>[\s\S]*?<\/t[hd]>/g) || [];
+      html += "<tr>";
+      cells.forEach(c=>{ const inner=c.replace(/^<t[hd]>/,"").replace(/<\/t[hd]>$/,""); const tag=ri===0?"th":"td"; html+="<"+tag+">"+inline(inner)+"</"+tag+">"; });
+      html += "</tr>";
+    });
+    html += "</table>"; tables.push(html); return "@@TBL"+(tables.length-1)+"@@";
+  });
+  content = content.replace(/<\/?columns>/g,"\n").replace(/<\/?column>/g,"\n").replace(/<\/?colgroup>/g,"").replace(/<col[^>]*\/?>/g,"").replace(/<empty-block\/>/g,"").replace(/<unknown[^>]*\/?>(?:[\s\S]*?<\/unknown>)?/g,"");
+  const lines = content.split("\n");
+  let html = "", inCode = false, codeBuf = [], para = [], listBuf = null, bq = [];
+  const fP=()=>{ if(para.length){ html+="<p>"+inline(para.join(" "))+"</p>"; para=[]; } };
+  const fL=()=>{ if(listBuf){ html+="<"+listBuf.type+">"+listBuf.items.map(x=>"<li>"+inline(x)+"</li>").join("")+"</"+listBuf.type+">"; listBuf=null; } };
+  const fB=()=>{ if(bq.length){ html+="<blockquote>"+inline(bq.join(" "))+"</blockquote>"; bq=[]; } };
+  const fA=()=>{ fP(); fL(); fB(); };
+  for (let i=0;i<lines.length;i++){
+    let ln = lines[i];
+    if (/^\s*```/.test(ln)){ if(inCode){ html+="<pre><code>"+esc(codeBuf.join("\n"))+"</code></pre>"; codeBuf=[]; inCode=false; } else { fA(); inCode=true; } continue; }
+    if (inCode){ codeBuf.push(ln); continue; }
+    if (/@@TBL\d+@@/.test(ln)){ fA(); html+=ln.replace(/@@TBL(\d+)@@/g,(_,k)=>tables[+k]); continue; }
+    if (/^\s*$/.test(ln)){ fA(); continue; }
+    let h = ln.match(/^(#{1,6})\s+(.*)$/);
+    if (h){ fA(); const lvl=Math.min(h[1].length+1,6); html+="<h"+lvl+">"+inline(h[2])+"</h"+lvl+">"; continue; }
+    if (/^\s*---+\s*$/.test(ln)){ fA(); html+="<hr>"; continue; }
+    let q = ln.match(/^\s*>\s?(.*)$/);
+    if (q){ fP(); fL(); bq.push(q[1]); continue; }
+    let li = ln.match(/^(\s*)[-*]\s+(.*)$/);
+    if (li){ fP(); fB(); if(!listBuf||listBuf.type!=="ul"){ fL(); listBuf={type:"ul",items:[]}; } listBuf.items.push(li[2]); continue; }
+    let ol = ln.match(/^(\s*)\d+\.\s+(.*)$/);
+    if (ol){ fP(); fB(); if(!listBuf||listBuf.type!=="ol"){ fL(); listBuf={type:"ol",items:[]}; } listBuf.items.push(ol[2]); continue; }
+    fL(); fB(); para.push(ln);
+  }
+  if (inCode && codeBuf.length) html+="<pre><code>"+esc(codeBuf.join("\n"))+"</code></pre>";
+  fA(); return html;
+}
+
+function openPage(id, title, accent){ navStack.push({ id, title:title||"", accent:accent||"#7048e8" }); renderReader(); }
+function renderReader(){
+  const reader = document.getElementById("reader");
+  reader.classList.add("open");
+  const cur = navStack[navStack.length-1];
+  document.documentElement.style.setProperty("--rac", cur.accent || "#7048e8");
+  document.getElementById("rtitle").textContent = cur.title || "";
+  document.getElementById("rback").style.visibility = navStack.length>1 ? "visible" : "hidden";
+  document.getElementById("crumbs").textContent = navStack.map(s=>s.title).filter(Boolean).join("  ›  ");
+  const doc = document.getElementById("rdoc");
+  document.querySelector(".reader-body").scrollTop = 0;
+  const md = SNAP[cur.id];
+  if (md){
+    doc.innerHTML = mdToHtml(md) || '<p class="empty">表示できる本文がありません。</p>';
+  } else {
+    doc.innerHTML = '<div class="fallback"><div class="fbicon">📖</div>'+
+      '<p><b>'+esc(cur.title||"このページ")+'</b> の詳しい解説は、元のNotionにあります。</p>'+
+      '<a class="fbbtn" href="https://www.notion.so/'+cur.id+'" target="_blank" rel="noopener">Notionで開く ↗</a>'+
+      '<p class="fbnote">このアプリには8カテゴリの一覧・横断検索と、主要ページ（文法用語集・ことわざ表など）を収録しています。</p></div>';
+  }
+}
+function readerBack(){ if (navStack.length>1){ navStack.pop(); renderReader(); } else closeReader(); }
+function closeReader(){ document.getElementById("reader").classList.remove("open"); navStack=[]; }
+
+function highlight(text,q){
+  if(!q) return esc(text);
+  const idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx===-1) return esc(text);
+  return esc(text.slice(0,idx))+'<mark class="q">'+esc(text.slice(idx,idx+q.length))+"</mark>"+esc(text.slice(idx+q.length));
+}
+function renderChips(){
+  const el=document.getElementById("chips");
+  const total=DATA.reduce((a,d)=>a+d.items.length,0);
+  let html='<div class="chip '+(activeFilter==='all'?'active':'')+'" data-f="all" style="--ac:#5667d6"><span class="dot"></span>すべて <span class="cnt">'+total+'</span></div>';
+  for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="dot"></span>'+esc(d.section.name)+' <span class="cnt">'+d.items.length+'</span></div>'; }
+  el.innerHTML=html;
+  el.querySelectorAll(".chip").forEach(c=>{ c.onclick=()=>{ activeFilter=c.dataset.f; lsSet(FILTER_KEY,activeFilter); render(); window.scrollTo({top:0}); }; });
+}
+function render(){
+  const content=document.getElementById("content");
+  const q=query.trim();
+  const visible=DATA.filter(d=>activeFilter==="all"||String(d.section.n)===activeFilter);
+  let html="", shown=0;
+  for(const d of visible){
+    const items=q? d.items.filter(it=>(it.title+" "+it.group).toLowerCase().includes(q.toLowerCase())) : d.items;
+    if(items.length===0 && q) continue;
+    shown+=items.length;
+    const ac=d.section.c;
+    html+='<div class="section" style="--ac:'+ac+'"><h2><span class="ic">'+d.section.icon+'</span><span>'+esc(d.section.name)+'</span><span class="badge">'+items.length+'</span></h2>';
+    if(items.length===0){ html+='<div class="empty" style="padding:16px;font-size:.82rem">項目がありません</div>'; }
+    else{
+      html+='<div class="grid">';
+      for(const it of items){
+        const pid = it.id || d.section.id;
+        const ptitle = it.id ? it.title : d.section.name;
+        html+='<div class="card" data-id="'+escAttr(pid)+'" data-title="'+escAttr(ptitle)+'" data-ac="'+ac+'"><span class="chev2">›</span>'+
+              (it.group?'<span class="grp">'+esc(it.group)+'</span>':'')+highlight(it.title,q)+'</div>';
+      }
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+  if(shown===0 && q) html='<div class="empty">「'+esc(q)+'」に一致する項目は見つかりませんでした。</div>';
+  content.innerHTML=html;
+  document.getElementById("clear").style.display=q?"block":"none";
+}
+function load(){
+  DATA = SECTIONS.map(sec=>({ section:sec, items:parseList(SNAP[sec.id]||"") }));
+  const total=DATA.reduce((a,d)=>a+d.items.length,0);
+  document.getElementById("updated").textContent="📚 収録 "+SECTIONS.length+" カテゴリ";
+  document.getElementById("totalcount").textContent="🔎 全 "+total+" 項目を検索";
+  renderChips(); render();
+}
+
+document.getElementById("q").addEventListener("input",e=>{ query=e.target.value; render(); });
+document.getElementById("clear").addEventListener("click",()=>{ query=""; document.getElementById("q").value=""; render(); });
+document.getElementById("content").addEventListener("click",e=>{ const card=e.target.closest(".card"); if(card && card.dataset.id) openPage(card.dataset.id, card.dataset.title, card.dataset.ac); });
+document.getElementById("rdoc").addEventListener("click",e=>{ const l=e.target.closest("a.rlink"); if(l){ e.preventDefault(); openPage(l.dataset.id, l.dataset.title, navStack.length?navStack[navStack.length-1].accent:"#7048e8"); } });
+document.getElementById("rback").addEventListener("click",readerBack);
+document.getElementById("rclose").addEventListener("click",closeReader);
+
+load();
+</script>
+</body>
+</html>
