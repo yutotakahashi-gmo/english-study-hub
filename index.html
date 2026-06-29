@@ -65,17 +65,27 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
   font-size:1rem; background:var(--ac,#3b5bdb); color:#fff; box-shadow:0 3px 8px rgba(0,0,0,.14); }
 .section h2 .badge { font-size:.7rem; font-weight:700; color:var(--ac,#5c7cfa); background:rgba(0,0,0,.04); padding:2px 9px; border-radius:999px; }
 
-.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:10px; }
-.card {
-  display:block; background:#fff; border:1px solid #e9ecf3; border-left:4px solid var(--ac,#c9d2ea); border-radius:13px;
-  padding:13px 14px; text-decoration:none; color:#222a3a; font-size:.93rem; transition: all .14s; position:relative;
-  cursor:pointer; box-shadow:0 1px 3px rgba(40,60,120,.04);
-}
-.card:hover { box-shadow:0 8px 20px rgba(60,80,160,.13); transform:translateY(-2px); }
-.card:active { transform:scale(.99); }
-.card .grp { display:block; font-size:.65rem; color:#97a0b0; margin-bottom:3px; letter-spacing:.3px; }
-.card .chev2 { color:var(--ac,#c0c8da); float:right; margin-left:6px; font-weight:700; }
-.card mark.q { background:#ffe066; padding:0 2px; border-radius:3px; }
+/* table-of-contents style (no flashcards) */
+.cat { margin-top:22px; }
+.cat-head { display:flex; align-items:center; gap:11px; padding:13px 15px; background:#fff; border:1px solid #e9ecf3;
+  border-left:5px solid var(--ac,#c9d2ea); border-radius:14px; cursor:pointer; box-shadow:0 1px 3px rgba(40,60,120,.05); }
+.cat-head:hover { box-shadow:0 6px 16px rgba(60,80,160,.10); }
+.cat-head:active { transform:scale(.997); }
+.cat-head .ic { width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;background:var(--ac,#3b5bdb);color:#fff;flex:none; }
+.cat-head .nm { font-weight:800; font-size:1.04rem; flex:1; }
+.cat-head .badge { font-size:.7rem;font-weight:700;color:var(--ac,#5c7cfa);background:rgba(0,0,0,.05);padding:2px 9px;border-radius:999px; }
+.cat-head .chev2 { color:var(--ac,#b9c2d6); font-weight:700; font-size:1.05rem; }
+.sublist { margin:7px 0 0; border:1px solid #eef0f5; border-radius:12px; overflow:hidden; background:#fff; }
+.grp-h { font-size:.66rem; color:#8a93a3; letter-spacing:.4px; padding:9px 15px 4px; background:#fafbfe; font-weight:600; }
+.row { display:flex; align-items:center; gap:10px; padding:12px 15px; border-top:1px solid #f1f3f8; cursor:pointer; font-size:.93rem; color:#26303f; }
+.row:first-child { border-top:none; }
+.grp-h + .row { border-top:none; }
+.row:hover { background:#f6f8ff; }
+.row:active { background:#eef1fe; }
+.row .rtit { flex:1; }
+.row .chev2 { color:#c3cbdc; font-weight:700; }
+.row.openself { color:var(--ac,#3b5bdb); font-weight:600; }
+.row mark.q { background:#ffe066; padding:0 2px; border-radius:3px; }
 
 .empty { text-align:center; color:#97a0b0; padding:40px 10px; font-size:.9rem; }
 .foot { margin-top:30px; text-align:center; font-size:.72rem; color:#aab2c0; }
@@ -633,17 +643,14 @@ function clean(t){
     .replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">")
     .replace(/\s+/g," ").trim();
 }
+// only ACTUAL sub-pages (page links) become navigable rows — inline bullets are NOT split out
 function parseList(md){
   const items = []; const seen = new Set();
-  const re = /(^|\n)[ \t]*#{2,4}\s+(.+)|<page url="([^"]+)">([\s\S]*?)<\/page>|(^|\n)[ \t]*[-*]\s+([^\n]+)/g;
+  const re = /(^|\n)[ \t]*#{2,4}\s+(.+)|<page url="([^"]+)">([\s\S]*?)<\/page>/g;
   let m, curGroup = "";
   while ((m = re.exec(md)) !== null){
     if (m[2] !== undefined){ curGroup = clean(m[2]); }
-    else if (m[3]){ const t = clean(m[4]); if (t && !seen.has(t)){ seen.add(t); items.push({ title:t, id:idFromUrl(m[3]), group:curGroup }); } }
-    else if (m[6] !== undefined){
-      const t = clean(m[6]);
-      if (t && t.length<=120 && !/^(例|特徴|特性)[:：]?$/.test(t) && !seen.has(t)){ seen.add(t); items.push({ title:t, id:null, group:curGroup }); }
-    }
+    else if (m[3]){ const t = clean(m[4]); const id = idFromUrl(m[3]); if (t && !seen.has(id)){ seen.add(id); items.push({ title:t, id:id, group:curGroup }); } }
   }
   return items;
 }
@@ -754,21 +761,25 @@ function render(){
   const visible=DATA.filter(d=>activeFilter==="all"||String(d.section.n)===activeFilter);
   let html="", shown=0;
   for(const d of visible){
-    const items=q? d.items.filter(it=>(it.title+" "+it.group).toLowerCase().includes(q.toLowerCase())) : d.items;
-    if(items.length===0 && q) continue;
-    shown+=items.length;
     const ac=d.section.c;
-    html+='<div class="section" style="--ac:'+ac+'"><h2><span class="ic">'+d.section.icon+'</span><span>'+esc(d.section.name)+'</span><span class="badge">'+items.length+'</span></h2>';
-    if(items.length===0){ html+='<div class="empty" style="padding:16px;font-size:.82rem">項目がありません</div>'; }
-    else{
-      html+='<div class="grid">';
+    const items=q? d.items.filter(it=>(it.title+" "+it.group).toLowerCase().includes(q.toLowerCase())) : d.items;
+    const catMatch = q ? d.section.name.toLowerCase().includes(q.toLowerCase()) : false;
+    if(q && items.length===0 && !catMatch) continue;
+    shown += items.length + (catMatch?1:0);
+    html+='<div class="cat" style="--ac:'+ac+'">';
+    html+='<div class="cat-head" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'">'+
+          '<span class="ic">'+d.section.icon+'</span><span class="nm">'+esc(d.section.name)+'</span>'+
+          (d.items.length?'<span class="badge">'+d.items.length+'</span>':'')+'<span class="chev2">›</span></div>';
+    if(items.length){
+      html+='<div class="sublist">';
+      let lastG=null;
       for(const it of items){
-        const pid = it.id || d.section.id;
-        const ptitle = it.id ? it.title : d.section.name;
-        html+='<div class="card" data-id="'+escAttr(pid)+'" data-title="'+escAttr(ptitle)+'" data-ac="'+ac+'"><span class="chev2">›</span>'+
-              (it.group?'<span class="grp">'+esc(it.group)+'</span>':'')+highlight(it.title,q)+'</div>';
+        if(it.group && it.group!==lastG){ html+='<div class="grp-h">'+esc(it.group)+'</div>'; lastG=it.group; }
+        html+='<div class="row" data-id="'+escAttr(it.id)+'" data-title="'+escAttr(it.title)+'" data-ac="'+ac+'"><span class="rtit">'+highlight(it.title,q)+'</span><span class="chev2">›</span></div>';
       }
       html+='</div>';
+    } else if(!q){
+      html+='<div class="sublist"><div class="row openself" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'"><span class="rtit">📖 内容を開く</span><span class="chev2">›</span></div></div>';
     }
     html+='</div>';
   }
@@ -780,13 +791,13 @@ function load(){
   DATA = SECTIONS.map(sec=>({ section:sec, items:parseList(SNAP[sec.id]||"") }));
   const total=DATA.reduce((a,d)=>a+d.items.length,0);
   document.getElementById("updated").textContent="📚 収録 "+SECTIONS.length+" カテゴリ";
-  document.getElementById("totalcount").textContent="🔎 全 "+total+" 項目を検索";
+  document.getElementById("totalcount").textContent="🔎 "+total+" ページを横断検索";
   renderChips(); render();
 }
 
 document.getElementById("q").addEventListener("input",e=>{ query=e.target.value; render(); });
 document.getElementById("clear").addEventListener("click",()=>{ query=""; document.getElementById("q").value=""; render(); });
-document.getElementById("content").addEventListener("click",e=>{ const card=e.target.closest(".card"); if(card && card.dataset.id) openPage(card.dataset.id, card.dataset.title, card.dataset.ac); });
+document.getElementById("content").addEventListener("click",e=>{ const el=e.target.closest("[data-id]"); if(el && el.dataset.id) openPage(el.dataset.id, el.dataset.title, el.dataset.ac); });
 document.getElementById("rdoc").addEventListener("click",e=>{ const l=e.target.closest("a.rlink"); if(l){ e.preventDefault(); openPage(l.dataset.id, l.dataset.title, navStack.length?navStack[navStack.length-1].accent:"#7048e8"); } });
 document.getElementById("rback").addEventListener("click",readerBack);
 document.getElementById("rclose").addEventListener("click",closeReader);
