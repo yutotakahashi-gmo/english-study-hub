@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#3b5bdb">
 <title>English Study Hub</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English Hub">
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -53,6 +60,8 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
   font-size:.82rem; cursor:pointer; transition: all .12s; display:flex; align-items:center; gap:7px; user-select:none;
 }
 .chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--ac,#888); flex:none; }
+.chip .num{ font-size:.92rem; line-height:1; flex:none; }
+.cat-head .num{ font-size:1.15rem; line-height:1; flex:none; }
 .chip:active { transform: scale(.96); }
 .chip.active { color:#fff; border-color:transparent; background:var(--ac,#3b5bdb); box-shadow:0 4px 12px rgba(0,0,0,.14); }
 .chip.active .dot{ background:#fff; }
@@ -609,15 +618,15 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 
 <script>
 const SECTIONS = [
-  { n:0, icon:"📘", name:"Learn English in English", id:"359f5dfa5cb3809c8a9dc3d063cf8092", c:"#4263eb" },
-  { n:1, icon:"📝", name:"Grammar",                   id:"2f7f5dfa5cb380ce8b6ed985dca41e7c", c:"#7048e8" },
-  { n:2, icon:"📚", name:"Vocabulary",                id:"2f7f5dfa5cb3809a847cf2406e0c9cc8", c:"#ae3ec9" },
-  { n:3, icon:"💬", name:"Casual English・Slangs",    id:"2f7f5dfa5cb380508ab2c6754628cfe4", c:"#d6336c" },
-  { n:4, icon:"🔐", name:"Cybersecurity English",     id:"2f7f5dfa5cb3809e941ede8ba83ff11f", c:"#0ca678" },
-  { n:5, icon:"💼", name:"Business English",          id:"2f7f5dfa5cb380fe9a9dd3a762b97252", c:"#f59f00" },
-  { n:6, icon:"✨", name:"Expressions",               id:"2fef5dfa5cb3803f8d3ccdf7f8a22b0d", c:"#e8590c" },
-  { n:7, icon:"🔗", name:"Phrasal Verb / Idioms",     id:"359f5dfa5cb380eb8de0fb359a3d9b8f", c:"#1098ad" },
+  { n:1, num:"1️⃣", icon:"📝", name:"Grammar",                id:"2f7f5dfa5cb380ce8b6ed985dca41e7c", c:"#7048e8" },
+  { n:2, num:"2️⃣", icon:"📚", name:"Vocabulary",             id:"2f7f5dfa5cb3809a847cf2406e0c9cc8", c:"#ae3ec9" },
+  { n:3, num:"3️⃣", icon:"💬", name:"Casual English・Slangs", id:"2f7f5dfa5cb380508ab2c6754628cfe4", c:"#d6336c" },
+  { n:4, num:"4️⃣", icon:"🔐", name:"Cybersecurity English",  id:"2f7f5dfa5cb3809e941ede8ba83ff11f", c:"#0ca678" },
+  { n:5, num:"5️⃣", icon:"💼", name:"Business English",       id:"2f7f5dfa5cb380fe9a9dd3a762b97252", c:"#f59f00" },
+  { n:6, num:"6️⃣", icon:"✨", name:"Expressions",            id:"2fef5dfa5cb3803f8d3ccdf7f8a22b0d", c:"#e8590c" },
+  { n:7, num:"7️⃣", icon:"🔗", name:"Phrasal Verb / Idioms",  id:"359f5dfa5cb380eb8de0fb359a3d9b8f", c:"#1098ad" },
 ];
+const LEARN_EN_ID = "359f5dfa5cb3809c8a9dc3d063cf8092";
 const FILTER_KEY = "englishhub_filter";
 function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
@@ -751,7 +760,7 @@ function renderChips(){
   const el=document.getElementById("chips");
   const total=DATA.reduce((a,d)=>a+d.items.length,0);
   let html='<div class="chip '+(activeFilter==='all'?'active':'')+'" data-f="all" style="--ac:#5667d6"><span class="dot"></span>すべて <span class="cnt">'+total+'</span></div>';
-  for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="dot"></span>'+esc(d.section.name)+' <span class="cnt">'+d.items.length+'</span></div>'; }
+  for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="num">'+d.section.num+'</span>'+esc(d.section.name)+' <span class="cnt">'+d.items.length+'</span></div>'; }
   el.innerHTML=html;
   el.querySelectorAll(".chip").forEach(c=>{ c.onclick=()=>{ activeFilter=c.dataset.f; lsSet(FILTER_KEY,activeFilter); render(); window.scrollTo({top:0}); }; });
 }
@@ -768,7 +777,7 @@ function render(){
     shown += items.length + (catMatch?1:0);
     html+='<div class="cat" style="--ac:'+ac+'">';
     html+='<div class="cat-head" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'">'+
-          '<span class="ic">'+d.section.icon+'</span><span class="nm">'+esc(d.section.name)+'</span>'+
+          '<span class="num">'+d.section.num+'</span><span class="ic">'+d.section.icon+'</span><span class="nm">'+esc(d.section.name)+'</span>'+
           (d.items.length?'<span class="badge">'+d.items.length+'</span>':'')+'<span class="chev2">›</span></div>';
     if(items.length){
       html+='<div class="sublist">';
@@ -788,7 +797,10 @@ function render(){
   document.getElementById("clear").style.display=q?"block":"none";
 }
 function load(){
+  if(activeFilter!=="all" && !SECTIONS.some(s=>String(s.n)===activeFilter)) activeFilter="all";
   DATA = SECTIONS.map(sec=>({ section:sec, items:parseList(SNAP[sec.id]||"") }));
+  const gram = DATA.find(d=>d.section.n===1);
+  if(gram){ gram.items.unshift({ title:"Learn English in English（基礎用語集）", id:LEARN_EN_ID, group:"" }); }
   const total=DATA.reduce((a,d)=>a+d.items.length,0);
   document.getElementById("updated").textContent="📚 収録 "+SECTIONS.length+" カテゴリ";
   document.getElementById("totalcount").textContent="🔎 "+total+" ページを横断検索";
