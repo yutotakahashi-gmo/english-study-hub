@@ -54,11 +54,13 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 .search-box .icon { position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#9aa3b2; font-size:1.05rem; }
 .search-box .clear { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; color:#9aa3b2; border:none; background:none; font-size:1.4rem; display:none; padding:4px 8px; }
 
-.chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.chips { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:10px; }
 .chip {
-  border:1px solid #e0e4ee; background:#fff; color:#3a4253; padding:7px 12px 7px 10px; border-radius:999px;
-  font-size:.82rem; cursor:pointer; transition: all .12s; display:flex; align-items:center; gap:7px; user-select:none;
+  border:1px solid #e0e4ee; background:#fff; color:#3a4253; padding:8px 8px; border-radius:14px;
+  font-size:.78rem; cursor:pointer; transition: all .12s; display:flex; align-items:center; justify-content:center;
+  gap:5px; user-select:none; text-align:center; line-height:1.2; min-height:44px; overflow:hidden;
 }
+.chip .nmv{ overflow:hidden; text-overflow:ellipsis; }
 .chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--ac,#888); flex:none; }
 .chip .num{ font-size:.92rem; line-height:1; flex:none; }
 .cat-head .num{ font-size:1.15rem; line-height:1; flex:none; }
@@ -811,7 +813,7 @@ const SNAP = {};
 document.querySelectorAll('script[type="text/plain"][data-pageid]').forEach(s=>{ SNAP[s.dataset.pageid] = s.textContent; });
 
 let DATA = [];
-let activeFilter = lsGet(FILTER_KEY) || "all";
+let activeFilter = lsGet(FILTER_KEY) || "1"; if(activeFilter==="all") activeFilter="1";
 let query = "";
 let navStack = [];
 
@@ -874,7 +876,7 @@ function mdToHtml(content){
     });
     html += "</table>"; tables.push(html); return "@@TBL"+(tables.length-1)+"@@";
   });
-  content = content.replace(/<\/?columns>/g,"\n").replace(/<\/?column>/g,"\n").replace(/<\/?colgroup>/g,"").replace(/<col[^>]*\/?>/g,"").replace(/<empty-block\/>/g,"").replace(/<unknown[^>]*\/?>(?:[\s\S]*?<\/unknown>)?/g,"");
+  content = content.replace(/<\/?columns>/g,"\n").replace(/<\/?column>/g,"\n").replace(/<\/?colgroup>/g,"").replace(/<col[^>]*\/?>/g,"").replace(/<empty-block\/>/g,"").replace(/<table_of_contents[^>]*\/?>/g,"").replace(/<unknown[^>]*\/?>(?:[\s\S]*?<\/unknown>)?/g,"");
   const lines = content.split("\n");
   let html = "", inCode = false, codeBuf = [], para = [], listBuf = null, bq = [];
   const fP=()=>{ if(para.length){ html+="<p>"+inline(para.join(" "))+"</p>"; para=[]; } };
@@ -934,16 +936,15 @@ function highlight(text,q){
 }
 function renderChips(){
   const el=document.getElementById("chips");
-  const total=DATA.reduce((a,d)=>a+d.items.length,0);
-  let html='<div class="chip '+(activeFilter==='all'?'active':'')+'" data-f="all" style="--ac:#5667d6"><span class="dot"></span>すべて <span class="cnt">'+total+'</span></div>';
-  for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="num">'+d.section.num+'</span>'+esc(d.section.name)+' <span class="cnt">'+d.items.length+'</span></div>'; }
+  let html='';
+  for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="num">'+d.section.num+'</span><span class="nmv">'+esc(d.section.name)+'</span></div>'; }
   el.innerHTML=html;
   el.querySelectorAll(".chip").forEach(c=>{ c.onclick=()=>{ activeFilter=c.dataset.f; lsSet(FILTER_KEY,activeFilter); render(); window.scrollTo({top:0}); }; });
 }
 function render(){
   const content=document.getElementById("content");
   const q=query.trim();
-  const visible=DATA.filter(d=>activeFilter==="all"||String(d.section.n)===activeFilter);
+  const visible = q ? DATA : DATA.filter(d=>String(d.section.n)===activeFilter);
   let html="", shown=0;
   for(const d of visible){
     const ac=d.section.c;
@@ -964,7 +965,8 @@ function render(){
       }
       html+='</div>';
     } else if(!q){
-      html+='<div class="sublist"><div class="row openself" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'"><span class="rtit">📖 内容を開く</span><span class="chev2">›</span></div></div>';
+      const body = SNAP[d.section.id];
+      html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(body?mdToHtml(body):'<p class="empty">本文がありません。</p>')+'</div>';
     }
     html+='</div>';
   }
@@ -973,7 +975,7 @@ function render(){
   document.getElementById("clear").style.display=q?"block":"none";
 }
 function load(){
-  if(activeFilter!=="all" && !SECTIONS.some(s=>String(s.n)===activeFilter)) activeFilter="all";
+  if(!SECTIONS.some(s=>String(s.n)===activeFilter)) activeFilter="1";
   DATA = SECTIONS.map(sec=>({ section:sec, items:parseList(SNAP[sec.id]||"") }));
   const gram = DATA.find(d=>d.section.n===1);
   if(gram){ gram.items.unshift({ title:"Learn English in English（基礎用語集）", id:LEARN_EN_ID, group:"" }); }
