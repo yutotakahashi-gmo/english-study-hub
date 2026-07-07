@@ -165,6 +165,25 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 
 @media (max-width:560px){ .hero h1 { font-size:1.28rem; } .grid { grid-template-columns: 1fr 1fr; } .reader-body { padding: 10px 15px 70px; } }
 @media (max-width:380px){ .grid { grid-template-columns: 1fr; } }
+
+/* proto UI overrides */
+.goal .pill{ background:none!important; border:none!important; padding:0!important; }
+.goal{ gap:4px 16px!important; font-size:.9rem; }
+.sublist{ display:grid!important; grid-template-columns:1fr 1fr!important; gap:8px!important; border:none!important; background:none!important; border-radius:0!important; overflow:visible!important; }
+.sublist .row{ border:1px solid #eef0f5!important; border-radius:10px!important; }
+.sublist .grp-h{ grid-column:1/-1; }
+@media(max-width:560px){ .sublist{ grid-template-columns:1fr!important; } }
+.acadwrap .pdict-sec{ font-weight:800; font-size:.95rem; color:#0f172a; border-bottom:2px solid #1f2937; padding-bottom:6px; margin:22px 0 14px; }
+.acadwrap .pdict-entry{ margin:0 0 20px; }
+.acadwrap .pdict-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+.acadwrap .pdict-hw{ font-weight:800; font-size:1.12rem; color:#0f172a; border-bottom:2px solid #dc2626; line-height:1.2; }
+.acadwrap .pdict-jp{ font-size:.82rem; color:#334155; }
+.acadwrap .pdict-meta{ margin-left:auto; font-size:.68rem; color:#64748b; white-space:nowrap; }
+.acadwrap .pdict-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.acadwrap .para-pill{ background:#fff; color:#0f172a; border:1px solid #cbd5e1; border-radius:3px; padding:4px 10px; font-size:.82rem; font-weight:500; }
+.acadwrap .para-pill.advanced{ background:#fef2f2; color:#991b1b; border:1px solid #dc2626; font-weight:700; }
+.acadwrap .pdict-note{ font-size:.85rem; color:#64748b; }
+
 </style>
 </head>
 <body>
@@ -580,7 +599,32 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 		<page url="https://app.notion.com/p/31af5dfa5cb380f3b821da8435a0f99e">文化差・食べ物・生活の違いの話題</page>
 		<page url="https://app.notion.com/p/31af5dfa5cb3802aabc5fc34a0bce002">Population\~Tipping Culture</page>
 		<page url="https://app.notion.com/p/31cf5dfa5cb3802f9a29d82d6d4c8ab4">電車に乗る</page>
-		<page url="https://app.notion.com/p/32ef5dfa5cb380daae53d939b3c4269e">「東京から北上し�</script>
+		<page url="https://app.notion.com/p/32ef5dfa5cb380daae53d939b3c4269e">「東京から北上して」</page>
+		<page url="https://app.notion.com/p/32ef5dfa5cb38096a3cacbed18182fd9">「最北端」「最南端」: *the northernmost / southernmost* </page>
+		<page url="https://app.notion.com/p/6f4105db8f8c428ca99bdd3263dc3a73">浅草＋スカイツリー＋新宿横丁</page>
+		<page url="https://app.notion.com/p/1769411486d8448b8c7a7d3ade9e0c0d">箱根 or 河口湖</page>
+		<page url="https://app.notion.com/p/5cb53da228ed46d98c3d93c0002fbd4f">明治神宮＋原宿＋渋谷スカイ</page>
+		<page url="https://app.notion.com/p/8386f83e102042d1b6a81a446a403e84">鎌倉＋江ノ島</page>
+		<page url="https://app.notion.com/p/d9b85452feca4fd094bac3a11475dbde">横浜</page>
+		<page url="https://app.notion.com/p/58463f6f55fa4a9ab2b0fe34deea2db6">京都</page>
+		<page url="https://app.notion.com/p/103eb593fe6d41efa0712059b4427868">沖縄</page>
+		<page url="https://app.notion.com/p/5f20f9c6b105463b947b6ff18b3b5bd1">奈良</page>
+		<page url="https://app.notion.com/p/31c8cfdb73cb4b738563161fad4c28b9">北海道</page>
+		<page url="https://app.notion.com/p/aac37db44d4c41d98c9cf0a2827dfba8">大阪</page>
+		<empty-block/>
+	</column>
+</columns>
+---
+<columns>
+	<column>
+		### キャリアを説明する
+	</column>
+	<column>
+		<empty-block/>
+	</column>
+</columns>
+<page url="https://app.notion.com/p/394f5dfa5cb380c3ae73ec88162c966d">エッジのあるキャリアを送りたい</page>
+</script>
 
 <script type="text/plain" data-pageid="359f5dfa5cb380eb8de0fb359a3d9b8f"><columns>
 	<column>
@@ -904,6 +948,55 @@ function mdToHtml(content){
   fA(); return html;
 }
 
+
+const ACAD_ID="317f5dfa5cb38069945cc06849e9b6fe";
+function pd_words(src){
+  const words=[]; src=src.replace(/\*\([^)]*\)\*/g,'');
+  const re=/<span color="yellow_bg">([\s\S]*?)<\/span>/g; let last=0,m;
+  const push=(text,adv)=>{ text.split('/').forEach(tok=>{ let w=tok.replace(/<[^>]+>/g,'').replace(/\*\*/g,'').trim(); if(!w)return; if(/→/.test(w))return; if(/\(see/i.test(w)||/^see\s/i.test(w))return; if(/[぀-ヿ㐀-鿿]/.test(w))return; words.push({w,adv}); }); };
+  while((m=re.exec(src))){ if(m.index>last)push(src.slice(last,m.index),false); push(m[1],true); last=re.lastIndex; }
+  if(last<src.length)push(src.slice(last),false); return words;
+}
+function renderParaDict(md){
+  const lines=String(md).split('\n'); const secs=[]; let sec=null,ent=null;
+  const POS={'動詞':'動詞 (VERB)','名詞':'名詞 (NOUN)','形容詞':'形容詞 (ADJ)','副詞':'副詞 (ADV)'};
+  for(let raw of lines){
+    if(!raw.trim())continue;
+    if(/^<(table_of_contents|empty-block)/.test(raw.trim()))continue;
+    if(/^---+$/.test(raw.trim()))continue;
+    let mS=raw.match(/^##\s+(.*)$/);
+    if(mS){ let t=mS[1],label=t; for(const k in POS){ if(t.indexOf(k)>=0){label=POS[k];break;} } sec={label:label,entries:[]}; secs.push(sec); ent=null; continue; }
+    let mTop=raw.match(/^-\s+(.*)$/);
+    if(mTop){ ent={head:mTop[1],rows:[],note:''}; if(sec)sec.entries.push(ent); continue; }
+    let mSub=raw.match(/^[\t ]+-\s+(.*)$/);
+    if(mSub&&ent){ let row=mSub[1];
+      if(/(see\s|→)/.test(row)&&!/\//.test(row)){ ent.note=row.replace(/\*\(([^)]*)\)\*/g,'($1)').replace(/<[^>]+>/g,'').replace(/\*\*/g,'').trim(); continue; }
+      if(/^[A-E]\.\s/.test(row))continue;
+      let ml=row.match(/^\*\*[^*]+\*\*\s*[:：]\s*(.*)$/); if(ml)row=ml[1];
+      ent.rows.push(row);
+    }
+  }
+  let html='';
+  for(const s of secs){
+    html+='<div class="pdict-sec">'+esc(s.label)+' ('+s.entries.length+')</div>';
+    for(const e of s.entries){
+      let bold=(e.head.match(/\*\*([^*]+)\*\*/)||[])[1]||e.head; let eng=bold,jp='';
+      let g=bold.match(/^([^（]+)（([^）]*)）/);
+      if(g){eng=g[1].trim();jp=g[2].trim();} else {eng=bold.replace(/（.*$/,'').trim();}
+      let words=[]; e.rows.forEach(function(r){words=words.concat(pd_words(r));});
+      const adv=words.filter(function(w){return w.adv;}).length;
+      html+='<div class="pdict-entry"><div class="pdict-head"><span class="pdict-hw">'+esc(eng)+'</span>';
+      if(jp)html+='<span class="pdict-jp">'+esc(jp)+'</span>';
+      if(words.length)html+='<span class="pdict-meta">'+words.length+'語 ・ 高得点'+adv+'</span>';
+      html+='</div>';
+      if(words.length){ html+='<div class="pdict-chips">'; for(const w of words){html+='<span class="para-pill'+(w.adv?' advanced':'')+'">'+esc(w.w)+'</span>';} html+='</div>'; }
+      else if(e.note){ html+='<div class="pdict-note">'+esc(e.note)+'</div>'; }
+      html+='</div>';
+    }
+  }
+  return html;
+}
+
 function openPage(id, title, accent){ navStack.push({ id, title:title||"", accent:accent||"#7048e8" }); renderReader(); }
 function renderReader(){
   const reader = document.getElementById("reader");
@@ -917,7 +1010,7 @@ function renderReader(){
   document.querySelector(".reader-body").scrollTop = 0;
   const md = SNAP[cur.id];
   if (md){
-    doc.innerHTML = mdToHtml(md) || '<p class="empty">表示できる本文がありません。</p>';
+    doc.innerHTML = (cur.id===ACAD_ID?renderParaDict(md):mdToHtml(md)) || '<p class="empty">表示できる本文がありません。</p>';
   } else {
     doc.innerHTML = '<div class="fallback"><div class="fbicon">📖</div>'+
       '<p><b>'+esc(cur.title||"このページ")+'</b> の詳しい解説は、元のNotionにあります。</p>'+
@@ -948,14 +1041,16 @@ function render(){
   let html="", shown=0;
   for(const d of visible){
     const ac=d.section.c;
-    const items=q? d.items.filter(it=>(it.title+" "+it.group).toLowerCase().includes(q.toLowerCase())) : d.items;
+    const items=q? d.items.filter(it=>(it.title+" "+it.group+" "+(SNAP[it.id]||"")).toLowerCase().includes(q.toLowerCase())) : d.items;
     const catMatch = q ? d.section.name.toLowerCase().includes(q.toLowerCase()) : false;
     if(q && items.length===0 && !catMatch) continue;
     shown += items.length + (catMatch?1:0);
     html+='<div class="cat" style="--ac:'+ac+'">';
-    html+='<div class="cat-head" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'">'+
+    if(q){
+      html+='<div class="cat-head" data-id="'+escAttr(d.section.id)+'" data-title="'+escAttr(d.section.name)+'" data-ac="'+ac+'">'+
           '<span class="num">'+d.section.num+'</span><span class="ic">'+d.section.icon+'</span><span class="nm">'+esc(d.section.name)+'</span>'+
           (d.items.length?'<span class="badge">'+d.items.length+'</span>':'')+'<span class="chev2">›</span></div>';
+    }
     if(items.length){
       html+='<div class="sublist">';
       let lastG=null;
@@ -966,7 +1061,8 @@ function render(){
       html+='</div>';
     } else if(!q){
       const body = SNAP[d.section.id];
-      html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(body?mdToHtml(body):'<p class="empty">本文がありません。</p>')+'</div>';
+      if(d.section.id===ACAD_ID){ html+='<div class="acadwrap">'+renderParaDict(body||'')+'</div>'; }
+      else html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(body?mdToHtml(body):'<p class="empty">本文がありません。</p>')+'</div>';
     }
     html+='</div>';
   }
