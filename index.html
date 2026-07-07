@@ -184,19 +184,111 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 .acadwrap .para-pill.advanced{ background:#fef2f2; color:#991b1b; border:1px solid #dc2626; font-weight:700; }
 .acadwrap .pdict-note{ font-size:.85rem; color:#64748b; }
 
+
+/* === 究極-inspired dark theme (compact header) === */
+body{ background:#0f172a!important; color:#e2e8f0!important; }
+.hero{ background:linear-gradient(135deg,#1e293b,#0f172a)!important; border:1px solid #334155!important; border-radius:0 0 16px 16px!important; padding:13px 18px!important; box-shadow:none!important; overflow:hidden; }
+.hero::after{ display:none!important; }
+.hero .hbar{ display:flex; align-items:center; gap:9px; }
+.hero .flag{ width:22px; height:22px; display:inline-flex; border-radius:3px; overflow:hidden; box-shadow:0 0 0 1px #334155; }
+.hero h1{ margin:0!important; font-size:1.18rem!important; letter-spacing:.2px!important; color:#f1f5f9!important; }
+.hero .sub{ font-size:.74rem!important; color:#94a3b8!important; margin-top:4px!important; }
+.goal{ margin-top:8px!important; gap:4px 14px!important; font-size:.82rem!important; color:#cbd5e1!important; }
+.goal .pill{ color:#cbd5e1!important; }
+.goal .pill small{ color:#94a3b8!important; }
+.meta-row,#updated,#totalcount{ color:#64748b!important; }
+.search-box input{ background:#1e293b!important; border:1px solid #334155!important; color:#e2e8f0!important; }
+.search-box input::placeholder{ color:#64748b!important; }
+.chip{ background:#1e293b!important; border:1px solid #334155!important; color:#cbd5e1!important; }
+.chip.active{ background:#dc2626!important; color:#fff!important; border-color:transparent!important; box-shadow:0 4px 12px rgba(220,38,38,.28)!important; }
+.cat-head{ background:#1e293b!important; border:1px solid #334155!important; }
+.cat-head .nm{ color:#e2e8f0!important; }
+.cat-head .badge{ background:#334155!important; color:#fca5a5!important; }
+.sublist .row{ background:#1e293b!important; border:1px solid #334155!important; }
+.sublist .row .rtit,.row .rtit{ color:#e2e8f0!important; }
+.sublist .grp-h,.grp-h{ color:#94a3b8!important; }
+.chev2{ color:#475569!important; }
+.empty{ color:#64748b!important; }
+mark.q{ background:#f59e0b!important; color:#1f2430!important; }
+/* reader dark */
+.reader{ background:#0f172a!important; }
+.reader-head{ background:#0f172a!important; border-bottom:1px solid #334155!important; }
+.reader-head .rtitle{ color:#f1f5f9!important; }
+.reader-head .back{ background:#334155!important; color:#e2e8f0!important; }
+.reader-head .rclose{ color:#94a3b8!important; }
+.crumbs{ color:#64748b!important; }
+.doc{ color:#cbd5e1!important; }
+.doc h1,.doc h2,.doc h3,.doc h4{ color:#f1f5f9!important; }
+.doc h2{ border-left-color:#dc2626!important; }
+.doc code{ background:#334155!important; color:#fca5a5!important; }
+.doc th{ background:#1e293b!important; color:#f1f5f9!important; }
+.doc td,.doc th,.doc table{ border-color:#334155!important; }
+.doc tr:nth-child(even) td{ background:#172033!important; }
+.doc blockquote{ background:#1e293b!important; border-left-color:#f59e0b!important; color:#e2e8f0!important; }
+.doc a.ext{ color:#93c5fd!important; }
+.doc a.rlink{ background:#334155!important; color:#e2e8f0!important; border-color:#475569!important; }
+.doc hr{ border-top-color:#334155!important; }
+.doc .imgph{ background:#334155!important; color:#94a3b8!important; }
+.fallback,.fbnote{ color:#94a3b8!important; }
+.fallback .fbicon{ filter:none; }
+/* academic dict: dark + red accents (究極) */
+.acadwrap .pdict-sec{ color:#f1f5f9!important; border-bottom-color:#475569!important; }
+.acadwrap .pdict-hw{ color:#f1f5f9!important; border-bottom-color:#dc2626!important; }
+.acadwrap .pdict-jp{ color:#94a3b8!important; }
+.acadwrap .pdict-meta{ color:#64748b!important; }
+.acadwrap .para-pill{ background:#1e293b!important; color:#e2e8f0!important; border:1px solid #475569!important; }
+.acadwrap .para-pill.advanced{ background:#3f1d1d!important; color:#fca5a5!important; border:1px solid #dc2626!important; }
+.acadwrap .pdict-note{ color:#94a3b8!important; }
+
+
+/* fixes: remove white, smaller title (究極寄り) */
+.grp-h{ background:transparent!important; color:#94a3b8!important; border-top:1px solid #1e293b; }
+.sublist{ background:transparent!important; }
+.toolbar{ background:transparent!important; }
+.search-box input:focus{ border-color:#dc2626!important; box-shadow:0 0 0 3px rgba(220,38,38,.18)!important; }
+.hero{ padding:11px 16px!important; }
+.hero h1{ font-size:.98rem!important; letter-spacing:.2px!important; }
+.hero .sub{ font-size:.7rem!important; margin-top:3px!important; }
+.hero .flag{ width:20px!important; height:20px!important; }
+.hero .goal{ font-size:.78rem!important; margin-top:7px!important; }
+.doc th{ background:#1e293b!important; }
+
+/* 究極-style compact header (transparent, no banner) */
+.hero{ background:transparent!important; border:none!important; border-radius:0!important; box-shadow:none!important; padding:14px 2px 6px!important; display:block!important; }
+.hero::after{ display:none!important; }
+.hero .hbrand{ display:flex; align-items:center; gap:10px; }
+.hero .flag{ width:40px!important; height:40px!important; border-radius:9px!important; background:#1e293b!important; box-shadow:0 0 0 1px #334155; display:inline-flex!important; align-items:center; justify-content:center; overflow:hidden; flex:none; }
+.hero .flag svg{ width:30px!important; height:30px!important; }
+.hero .brand{ display:flex; flex-direction:column; min-width:0; }
+.hero .ttl{ font-size:19px!important; font-weight:800!important; color:#f1f5f9!important; line-height:1.15; letter-spacing:.2px; }
+.hero .sub{ font-size:11px!important; color:#94a3b8!important; margin:2px 0 0!important; }
+.hero .goal{ margin-top:9px!important; font-size:11px!important; color:#94a3b8!important; gap:2px 12px!important; }
+.hero .goal .pill{ color:#94a3b8!important; }
+.hero .goal .pill small{ color:#64748b!important; }
+.hero .meta-row{ margin-top:5px!important; font-size:11px!important; color:#64748b!important; display:flex; gap:14px; }
+
+/* hide goal + meta rows in header */
+.hero .goal, .hero .meta-row{ display:none!important; }
+
+/* non-sticky toolbar + chips (fix overlap) */
+.toolbar{ position:static!important; background:transparent!important; }
+.chips{ position:static!important; }
+
+/* tables fill width (fix empty right gap) */
+.doc table{ display:table!important; width:100%!important; table-layout:auto!important; overflow:visible!important; }
+.doc td:last-child, .doc th:last-child{ width:auto; }
+.doc td, .doc th{ word-break:break-word; }
+
+/* dark tap-state */
+.row:active{ background:#334155!important; }
+.cat-head:active{ background:#334155!important; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="hero">
-    <h1>🇺🇸 English Study Hub</h1>
-    <div class="sub">Notion「ENGLISH」を、どこでも開ける学習アプリに</div>
-    <div class="goal">
-      <span class="pill">🎯 2026 Goal</span>
-      <span class="pill">TOEIC <small>950</small></span>
-      <span class="pill">TOEFL <small>100</small></span>
-      <span class="pill">英検 <small>1級</small></span>
-    </div>
+    <header class="hero">
+    <div class="hbrand"><span class="flag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="22" height="22"><path fill="#B22334" d="M35.445 7C34.752 5.809 33.477 5 32 5H18v2h17.445zM0 25h36v2H0zm18-8h18v2H18zm0-4h18v2H18zM0 21h36v2H0zm4 10h28c1.477 0 2.752-.809 3.445-2H.555c.693 1.191 1.968 2 3.445 2zM18 9h18v2H18z"/><path fill="#EEE" d="M.068 27.679c.017.093.036.186.059.277.026.101.058.198.092.296.089.259.197.509.333.743L.555 29h34.89l.002-.004c.135-.233.243-.483.332-.741.034-.099.067-.198.093-.301.023-.09.042-.182.059-.275.041-.22.069-.446.069-.679H0c0 .233.028.458.068.679zM0 23h36v2H0zm0-4v2h36v-2H18zm18-4h18v2H18zm0-4h18v2H18zM0 9c0-.233.03-.457.068-.679C.028 8.542 0 8.767 0 9zm.555-2l-.003.005L.555 7zM.128 8.044c.025-.102.06-.199.092-.297-.034.098-.066.196-.092.297zM18 9h18c0-.233-.028-.459-.069-.68-.017-.092-.035-.184-.059-.274-.027-.103-.059-.203-.094-.302-.089-.258-.197-.507-.332-.74.001-.001 0-.003-.001-.004H18v2z"/><path fill="#3C3B6E" d="M18 5H4C1.791 5 0 6.791 0 9v10h18V5z"/><path fill="#FFF" d="M2.001 7.726l.618.449-.236.725L3 8.452l.618.448-.236-.725L4 7.726h-.764L3 7l-.235.726zm2 2l.618.449-.236.725.617-.448.618.448-.236-.725L6 9.726h-.764L5 9l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L9 9l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L13 9l-.235.726zm-8 4l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L5 13l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L9 13l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L13 13l-.235.726zm-6-6l.618.449-.236.725L7 8.452l.618.448-.236-.725L8 7.726h-.764L7 7l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L11 7l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L15 7l-.235.726zm-12 4l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L3 11l-.235.726zM6.383 12.9L7 12.452l.618.448-.236-.725.618-.449h-.764L7 11l-.235.726h-.764l.618.449zm3.618-1.174l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L11 11l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L15 11l-.235.726zm-12 4l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L3 15l-.235.726zM6.383 16.9L7 16.452l.618.448-.236-.725.618-.449h-.764L7 15l-.235.726h-.764l.618.449zm3.618-1.174l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L11 15l-.235.726zm4 0l.618.449-.236.725.617-.448.618.448-.236-.725.618-.449h-.764L15 15l-.235.726z"/></svg></span><div class="brand"><div class="ttl">English Study Hub</div><div class="sub">Notion「ENGLISH」を、どこでも開ける学習アプリに</div></div></div>
+    <div class="goal"><span class="pill">🎯 2026 Goal</span><span class="pill">TOEIC <small>950</small></span><span class="pill">TOEFL <small>100</small></span><span class="pill">英検 <small>1級</small></span></div>
     <div class="meta-row"><span id="updated"></span><span id="totalcount"></span></div>
   </header>
 
@@ -464,17 +556,7 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 ---
 </script>
 
-<script type="text/plain" data-pageid="2f7f5dfa5cb380508ab2c6754628cfe4"><page url="https://app.notion.com/p/2f7f5dfa5cb380508ab2c6754628cfe4" icon="3️⃣">
-<ancestor-path>
-<parent-page url="https://app.notion.com/p/2fef5dfa5cb380e8861be4332334c979" title=""/>
-<ancestor-2-page url="https://app.notion.com/p/2fef5dfa5cb3804ca7b2fb909d1bf907" title=""/>
-<ancestor-3-page url="https://app.notion.com/p/2f6f5dfa5cb380b89787dfae3334febc" title="ENGLISH"/>
-</ancestor-path>
-<properties>
-{"title":"Casual English・Slangs"}
-</properties>
-<content>
-<columns>
+<script type="text/plain" data-pageid="2f7f5dfa5cb380508ab2c6754628cfe4"><columns>
 	<column>
 		### カジュアル会話
 		<page url="https://app.notion.com/p/2f7f5dfa5cb3805ab6decde2f54aa1e7">評価</page>
@@ -531,8 +613,6 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 <page url="https://app.notion.com/p/a8426c7d68b846cc8c5a06c28c2e0b6d">それはAでも起こってるよ</page>
 <page url="https://app.notion.com/p/95319222a6524d568e36c959135c6020">日本の雇用制度の特殊性 — 日米対比・表現集</page>
 <page url="https://app.notion.com/p/5150250f4f5c4a058aa853c989d4ba6e">日本の通貨危機 — タイ・韓国との比較</page>
-</content>
-</page>
 </script>
 
 <script type="text/plain" data-pageid="2f7f5dfa5cb3809e941ede8ba83ff11f">
@@ -647,7 +727,6 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 			- look after（世話をする）
 			- put off（延期する）
 			- get along（仲良くやる）
-
 		---
 		<unknown url="https://app.notion.com/p/359f5dfa5cb380eb8de0fb359a3d9b8f#359f5dfa5cb380499b89f00909916791" alt="alias"/>
 		<empty-block/>
@@ -668,7 +747,7 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 		<page url="https://app.notion.com/p/36ef5dfa5cb38044811cda3e4b74aa61">Fair Enough</page>
 		<empty-block/>
 	</column>
-</columns</script>
+</columns></script>
 
 <script type="text/plain" data-pageid="317f5dfa5cb38069945cc06849e9b6fe">
 <table_of_contents color="gray"/>
@@ -760,20 +839,12 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 	- attempt / experiment with / explore / test / examine / endeavor / venture / trial / have a go at / have a crack at / <span color="yellow_bg">make a foray into</span> / <span color="yellow_bg">essay</span>
 - **Understand（理解する）**
 	- comprehend / grasp / perceive / interpret / appreciate / identify / acknowledge / internalize / make sense of / <span color="yellow_bg">apprehend</span> / <span color="yellow_bg">fathom</span> / <span color="yellow_bg">have a firm grasp of</span> / <span color="yellow_bg">get to grips with</span>
-- **Address（対処する）**
-	- tackle / deal with / resolve / mitigate / confront / address head-on / respond to / grapple with / cope with / take steps to remedy / <span color="yellow_bg">redress</span> / <span color="yellow_bg">come to grips with</span>
-- **Advance（進める・促進する）**
-	- promote / foster / further / strengthen / develop / push forward / move forward / accelerate / drive / facilitate / <span color="yellow_bg">propel</span> / <span color="yellow_bg">expedite</span> / <span color="yellow_bg">carry forward</span>
-- **Prove effective（効果を示す）**
-	- work well / yield results / deliver outcomes / bear fruit / succeed / prove successful / have the desired effect / make a tangible difference / <span color="yellow_bg">come to fruition</span> / <span color="yellow_bg">pay dividends</span>
-- **Support the position（立場・主張を支持する）**
-	- back the view / reinforce the case / uphold the argument / substantiate the claim / lend weight to it / strengthen the argument / provide support for the position / give credence to the claim / <span color="yellow_bg">buttress the position</span> / <span color="yellow_bg">lend credence to the argument</span>
 ---
 ## 🧱 名詞パラフレーズ辞典
 - **Cause（原因）** *(動詞は上記参照)*
 	- trigger / driver / catalyst / root / source / underlying factor / determinant / impetus / <span color="yellow_bg">wellspring</span> / <span color="yellow_bg">fountainhead</span>
 - **Effect（結果）**
-	- impact / consequence / outcome / result / <span color="blue_bg">implication</span> / influence / aftermath / byproduct / knock-on effect / fallout / spillover / domino effect / <span color="yellow_bg">repercussion</span> / <span color="yellow_bg">ramification</span> / <span color="yellow_bg">corollary</span> / <span color="yellow_bg">upshot</span>
+	- impact / consequence / outcome / result / implication / influence / aftermath / byproduct / knock-on effect / fallout / spillover / domino effect / <span color="yellow_bg">repercussion</span> / <span color="yellow_bg">ramification</span> / <span color="yellow_bg">corollary</span> / <span color="yellow_bg">upshot</span>
 - **Experience（名詞）** *(see 動詞)*
 	- encounter / exposure / engagement / <span color="yellow_bg">firsthand exposure to</span> / stint / brush with / sojourn
 - **Limitation（制限・弱点）**
@@ -790,32 +861,6 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 	- assignment / duty / responsibility / obligation / function / role / brief / <span color="yellow_bg">charge</span> / <span color="yellow_bg">mandate</span> / <span color="yellow_bg">remit</span> / <span color="yellow_bg">portfolio</span> / <span color="yellow_bg">purview</span>
 - **Task（職業・職務）**
 	- work / job / occupation / profession / employment / position / post / career / vocation / calling
-- **Society（社会）**
-	- community / the public / the social fabric / the nation / civilization / members of society / social order / the wider community / <span color="yellow_bg">the body politic</span>
-- **People（人々）**
-	- individuals / citizens / the public / the population / members of society / ordinary people / the general public / the populace / <span color="yellow_bg">the citizenry</span>
-- **Stakeholders（関係者）**
-	- parties involved / those affected / interested parties / participants / key players / relevant actors / concerned parties / those with a stake in the issue
-- **Government（政府）**
-	- the authorities / the state / policymakers / the administration / officials / public institutions / governing bodies / <span color="yellow_bg">the public sector</span>
-- **Economy（経済）**
-	- financial system / market / commerce / fiscal conditions / economic sphere / economic activity / the marketplace / <span color="yellow_bg">the broader economic landscape</span>
-- **Environment（環境）**
-	- ecosystem / nature / the natural world / surroundings / the planet / ecological systems / the biosphere / environmental conditions
-- **Technology（技術）**
-	- innovation / digital tools / technical advances / technical means / tech / technological progress / emerging technologies / digital infrastructure
-- **Education（教育）**
-	- schooling / instruction / learning / training / academia / formal education / educational systems / academic development
-- **Opinion（意見）**
-	- perspective / standpoint / stance / viewpoint / position / view / outlook / school of thought
-- **Need（必要性）**
-	- necessity / demand / requirement / call for / prerequisite / pressing need / urgent demand / imperative / <span color="yellow_bg">exigency</span>
-- **Benefit（利点）**
-	- advantage / gain / merit / upside / plus / benefit / positive effect / added value / <span color="yellow_bg">dividend</span>
-- **Impact（影響）**
-	- effect / influence / consequence / bearing / ramification / implication / repercussion / knock-on effect / <span color="yellow_bg">spillover effect</span>
-- **Development（発展）**
-	- progress / growth / advancement / evolution / expansion / maturation / improvement / forward movement
 ---
 ## 📊 形容詞パラフレーズ辞典
 - **Bad（悪い）**
@@ -841,7 +886,48 @@ header.hero::after{ content:""; position:absolute; right:-40px; top:-50px; width
 - **Small（小さい）**
 	- minor / limited / minimal / modest / slight / insignificant / marginal / negligible / scant / diminutive / <span color="yellow_bg">paltry</span> / <span color="yellow_bg">trifling</span> / <span color="yellow_bg">infinitesimal</span>
 - **Substantial（相当な）**
-	- considerable / sizable / appreciable / significant / w</script>
+	- considerable / sizable / appreciable / significant / weighty / non-trivial / material / meaningful
+---
+## 🌀 副詞パラフレーズ辞典
+- **Substantially（大幅に・実質的に）**
+	- considerably / significantly / appreciably / markedly / notably / sizably / measurably / meaningfully / materially / substantively / to a considerable degree / to a significant extent
+- **Significantly（著しく）**
+	- notably / markedly / considerably / substantially / appreciably / dramatically / <span color="yellow_bg">profoundly</span> / substantively / to a marked degree / tellingly
+- **Markedly（顕著に）**
+	- noticeably / conspicuously / appreciably / strikingly / visibly / unmistakably / glaringly / discernibly / perceptibly / <span color="yellow_bg">palpably</span>
+- **Dramatically（劇的に）**
+	- drastically / sharply / radically / strikingly / profoundly / exponentially / markedly / <span color="yellow_bg">precipitously</span> / <span color="yellow_bg">seismically</span>
+- **Slightly（わずかに）**
+	- marginally / minimally / modestly / fractionally / a touch / a tad / negligibly / to a small extent / <span color="yellow_bg">imperceptibly</span>
+- **Gradually（徐々に）**
+	- progressively / steadily / incrementally / step by step / over time / by degrees / little by little / <span color="yellow_bg">piecemeal</span>
+- **Rapidly（急速に）**
+	- quickly / swiftly / speedily / hastily / at a brisk pace / in short order / <span color="yellow_bg">expeditiously</span> / <span color="yellow_bg">apace</span>
+- **Suddenly（突然）**
+	- abruptly / unexpectedly / all of a sudden / out of the blue / without warning / in a flash / overnight / <span color="yellow_bg">precipitously</span>
+- **Frequently（頻繁に）**
+	- often / regularly / repeatedly / commonly / routinely / habitually / time and again / with regularity / <span color="yellow_bg">perennially</span> / incessantly
+- **Rarely（めったに〜ない）**
+	- seldom / infrequently / hardly ever / scarcely / on rare occasions / once in a blue moon / sporadically
+- **Clearly（明らかに）**
+	- evidently / obviously / plainly / visibly / undoubtedly / unequivocally / <span color="yellow_bg">indisputably</span> / demonstrably / manifestly / <span color="yellow_bg">patently</span>
+- **Probably（おそらく）**
+	- likely / presumably / arguably / conceivably / in all likelihood / in all probability / as a rule
+- **Especially（特に）**
+	- particularly / notably / specifically / chiefly / primarily / above all / <span color="yellow_bg">first and foremost</span> / pre-eminently
+- **Generally（一般に）**
+	- typically / commonly / usually / broadly / on the whole / by and large / as a general rule / for the most part / in the main
+- **Effectively（効果的に）**
+	- efficiently / successfully / productively / competently / <span color="yellow_bg">to good effect</span> / <span color="yellow_bg">to telling effect</span> / with telling effect
+- **Inevitably（必然的に）**
+	- unavoidably / necessarily / certainly / as a matter of course / by the same token / of necessity / <span color="yellow_bg">ineluctably</span>
+- **Surprisingly（驚くべきことに）**
+	- unexpectedly / remarkably / strikingly / curiously / counterintuitively / paradoxically / <span color="yellow_bg">astonishingly</span> / unaccountably
+- **Arguably（〜とも言える）**
+	- conceivably / plausibly / debatably / <span color="yellow_bg">it could be argued that</span> / <span color="yellow_bg">a case can be made that</span>
+---
+<empty-block/>
+</script>
 
 <script>
 const SECTIONS = [
@@ -1038,7 +1124,7 @@ function renderChips(){
   let html='';
   for(const d of DATA){ html+='<div class="chip '+(activeFilter==String(d.section.n)?'active':'')+'" data-f="'+d.section.n+'" style="--ac:'+d.section.c+'"><span class="num">'+d.section.num+'</span><span class="nmv">'+esc(d.section.name)+'</span></div>'; }
   el.innerHTML=html;
-  el.querySelectorAll(".chip").forEach(c=>{ c.onclick=()=>{ activeFilter=c.dataset.f; lsSet(FILTER_KEY,activeFilter); render(); window.scrollTo({top:0}); }; });
+  el.querySelectorAll(".chip").forEach(c=>{ c.onclick=()=>{ activeFilter=c.dataset.f; lsSet(FILTER_KEY,activeFilter); renderChips(); render(); window.scrollTo({top:0}); }; });
 }
 function render(){
   const content=document.getElementById("content");
