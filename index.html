@@ -6621,7 +6621,7 @@ function mdToHtml(content){
     if (inCode){ codeBuf.push(ln); continue; }
     if (/@@TBL\d+@@/.test(ln)){ fA(); html+=ln.replace(/@@TBL(\d+)@@/g,(_,k)=>tables[+k]); continue; }
     if (/^\s*$/.test(ln)){ fA(); continue; }
-    let h = ln.match(/^(#{1,6})\s+(.*)$/);
+    let h = ln.match(/^[	 ]*(#{1,6})\s+(.*)$/);
     if (h){ fA(); const lvl=Math.min(h[1].length+1,6); html+="<h"+lvl+">"+inline(h[2])+"</h"+lvl+">"; continue; }
     if (/^\s*---+\s*$/.test(ln)){ fA(); html+="<hr>"; continue; }
     let q = ln.match(/^\s*>\s?(.*)$/);
