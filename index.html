@@ -6748,7 +6748,7 @@ function render(){
       }
       html+='</div>';
     } if(!q){
-      const body = SNAP[d.section.id];const bodyShown=isPVI?(pviTab==='id'?splitPVI(body).id:splitPVI(body).pv):body;
+      const body = SNAP[d.section.id];const rawShown=isPVI?(pviTab==='id'?splitPVI(body).id:splitPVI(body).pv):body;const bodyShown=String(rawShown||'').replace(/<page url="[^"]*">[\s\S]*?<\/page>/g,'');
       if(d.section.id===ACAD_ID){ html+='<div class="acadwrap">'+renderParaDict(body||'')+'</div>'; }
       else html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(bodyShown?mdToHtml(bodyShown):'<p class="empty">本文がありません。</p>')+'</div>';
     }
