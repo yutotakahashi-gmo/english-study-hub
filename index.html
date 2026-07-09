@@ -6747,7 +6747,7 @@ function render(){
         html+='<div class="row" data-id="'+escAttr(it.id)+'" data-title="'+escAttr(it.title)+'" data-ac="'+ac+'"><span class="rtit">'+highlight(it.title,q)+'</span><span class="chev2">›</span></div>';
       }
       html+='</div>';
-    } else if(!q){
+    } if(!q){
       const body = SNAP[d.section.id];
       if(d.section.id===ACAD_ID){ html+='<div class="acadwrap">'+renderParaDict(body||'')+'</div>'; }
       else html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(body?mdToHtml(body):'<p class="empty">本文がありません。</p>')+'</div>';
