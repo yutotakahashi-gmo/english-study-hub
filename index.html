@@ -6637,7 +6637,7 @@ function mdToHtml(content){
 }
 
 
-const ACAD_ID="317f5dfa5cb38069945cc06849e9b6fe";
+const ACAD_ID="317f5dfa5cb38069945cc06849e9b6fe";const PVI_ID="359f5dfa5cb380eb8de0fb359a3d9b8f";let pviTab="pv";function splitPVI(body){body=String(body||'');const idx=body.search(/[	 ]*##\s*Idioms\(/);return idx===-1?{pv:body,id:''}:{pv:body.slice(0,idx),id:body.slice(idx)};}
 function pd_words(src){
   const words=[]; src=src.replace(/\*\([^)]*\)\*/g,'');
   const re=/<span color="yellow_bg">([\s\S]*?)<\/span>/g; let last=0,m;
@@ -6739,18 +6739,18 @@ function render(){
           '<span class="num">'+d.section.num+'</span><span class="ic">'+d.section.icon+'</span><span class="nm">'+esc(d.section.name)+'</span>'+
           (d.items.length?'<span class="badge">'+d.items.length+'</span>':'')+'<span class="chev2">›</span></div>';
     }
-    if(items.length){
+    const isPVI=d.section.id===PVI_ID&&!q;const dispItems=isPVI?items.filter(function(it){return /^Idiom/.test(it.group||'')===(pviTab==='id');}):items;if(isPVI){html+='<div style="display:flex;gap:6px;margin-bottom:10px">'+'<button data-pvitab="pv" style="flex:1;padding:8px 10px;border-radius:10px;border:1px solid '+(pviTab==='pv'?ac:'rgba(150,150,150,.35)')+';background:'+(pviTab==='pv'?ac:'transparent')+';color:'+(pviTab==='pv'?'#fff':'inherit')+';font-size:13px;font-weight:600;cursor:pointer">Phrasal Verbs</button>'+'<button data-pvitab="id" style="flex:1;padding:8px 10px;border-radius:10px;border:1px solid '+(pviTab==='id'?ac:'rgba(150,150,150,.35)')+';background:'+(pviTab==='id'?ac:'transparent')+';color:'+(pviTab==='id'?'#fff':'inherit')+';font-size:13px;font-weight:600;cursor:pointer">Idioms</button>'+'</div>';}if(dispItems.length){
       html+='<div class="sublist">';
       let lastG=null;
-      for(const it of items){
+      for(const it of dispItems){
         if(it.group && it.group!==lastG){ html+='<div class="grp-h">'+esc(it.group)+'</div>'; lastG=it.group; }
         html+='<div class="row" data-id="'+escAttr(it.id)+'" data-title="'+escAttr(it.title)+'" data-ac="'+ac+'"><span class="rtit">'+highlight(it.title,q)+'</span><span class="chev2">›</span></div>';
       }
       html+='</div>';
     } if(!q){
-      const body = SNAP[d.section.id];
+      const body = SNAP[d.section.id];const bodyShown=isPVI?(pviTab==='id'?splitPVI(body).id:splitPVI(body).pv):body;
       if(d.section.id===ACAD_ID){ html+='<div class="acadwrap">'+renderParaDict(body||'')+'</div>'; }
-      else html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(body?mdToHtml(body):'<p class="empty">本文がありません。</p>')+'</div>';
+      else html+='<div class="doc catdoc" style="--rac:'+ac+'">'+(bodyShown?mdToHtml(bodyShown):'<p class="empty">本文がありません。</p>')+'</div>';
     }
     html+='</div>';
   }
@@ -6771,7 +6771,7 @@ function load(){
 
 document.getElementById("q").addEventListener("input",e=>{ query=e.target.value; render(); });
 document.getElementById("clear").addEventListener("click",()=>{ query=""; document.getElementById("q").value=""; render(); });
-document.getElementById("content").addEventListener("click",e=>{ const el=e.target.closest("[data-id]"); if(el && el.dataset.id) openPage(el.dataset.id, el.dataset.title, el.dataset.ac); });
+document.getElementById("content").addEventListener("click",e=>{ const pvt=e.target.closest("[data-pvitab]");if(pvt){pviTab=pvt.dataset.pvitab;render();return;}const el=e.target.closest("[data-id]"); if(el && el.dataset.id) openPage(el.dataset.id, el.dataset.title, el.dataset.ac); });
 document.getElementById("rdoc").addEventListener("click",e=>{ const l=e.target.closest("a.rlink"); if(l){ e.preventDefault(); openPage(l.dataset.id, l.dataset.title, navStack.length?navStack[navStack.length-1].accent:"#7048e8"); } });
 document.getElementById("rback").addEventListener("click",readerBack);
 document.getElementById("rclose").addEventListener("click",closeReader);
